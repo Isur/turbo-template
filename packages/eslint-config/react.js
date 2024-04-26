@@ -1,7 +1,3 @@
-const { resolve } = require("node:path");
-
-const project = resolve(process.cwd(), "tsconfig.json");
-
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   root: true,
@@ -20,11 +16,6 @@ module.exports = {
   settings: {
     react: {
       version: "detect",
-    },
-    "import/resolver": {
-      typescript: {
-        project,
-      },
     },
   },
   rules: {
