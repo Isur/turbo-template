@@ -33,6 +33,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@repo/tailwind-config':
+        specifier: workspace:*
+        version: link:../../packages/tailwind-config
       '@types/react':
         specifier: ^18.2.66
         version: 18.3.0
@@ -102,6 +105,15 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
+
+  packages/tailwind-config:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      tailwindcss:
+        specifier: ^3.4.1
+        version: 3.4.3
 
   packages/typescript-config: {}
 
