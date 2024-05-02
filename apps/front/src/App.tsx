@@ -5,7 +5,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <h1 className="text-5xl text-primary font-bold underline">
-        Vite + React + Tailwind + Typescript <ModeToggle />
+        Vite + React + Tailwind + shadcn/ui + Typescript <ModeToggle />
       </h1>
     </ThemeProvider>
   );
