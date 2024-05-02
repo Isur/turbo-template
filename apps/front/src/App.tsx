@@ -1,14 +1,12 @@
-import { ModeToggle } from "./components/mode-toggle";
+import { FC, PropsWithChildren } from "react";
 import { ThemeProvider } from "./components/theme-provider";
 
-function App() {
+const App: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <h1 className="text-5xl text-primary font-bold underline">
-        Vite + React + Tailwind + shadcn/ui + Typescript <ModeToggle />
-      </h1>
+      {children}
     </ThemeProvider>
   );
-}
+};
 
 export default App;
