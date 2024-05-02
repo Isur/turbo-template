@@ -1,0 +1,11 @@
+{
+  "extends": "@repo/typescript-config/vite.json",
+  "compilerOptions": {
+    "baseUrl": "../front-packages",
+    "paths": {
+      "@/*": ["../front-packages/src/*"]
+    }
+  },
+  "include": [ "../front-packages/src", "../front-packages/vite.config.ts" ],
+  "exclude": ["../front-packages/node_modules"]
+}

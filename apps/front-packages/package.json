@@ -1,5 +1,5 @@
 {
-  "name": "front2",
+  "name": "front-packages",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,22 +8,17 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@radix-ui/react-dropdown-menu": "^2.0.6",
-    "@radix-ui/react-slot": "^1.0.2",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.376.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
-    "@types/node": "^20.12.7",
+    "@repo/ui": "workspace:*",
+    "@repo/tailwind-config": "workspace:*",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

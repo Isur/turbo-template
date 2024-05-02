@@ -7,6 +7,7 @@ const config: Omit<Config, "content"> = {
       colors: {
         primary: "#d65d0e",
         backgroundColor: "#282828",
+        teste: "#00ff00",
       },
     },
   },
