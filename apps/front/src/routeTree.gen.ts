@@ -13,17 +13,47 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthAuthImport } from './routes/auth/_auth'
+import { Route as AuthAuthRegisterImport } from './routes/auth/_auth.register'
+import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+import { Route as AuthAuthForgetPasswordImport } from './routes/auth/_auth.forget-password'
 
 // Create Virtual Routes
 
+const AuthImport = createFileRoute('/auth')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const AuthRoute = AuthImport.update({
+  path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const AuthAuthRoute = AuthAuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthAuthRegisterRoute = AuthAuthRegisterImport.update({
+  path: '/register',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
+
+const AuthAuthLoginRoute = AuthAuthLoginImport.update({
+  path: '/login',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
+
+const AuthAuthForgetPasswordRoute = AuthAuthForgetPasswordImport.update({
+  path: '/forget-password',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -33,11 +63,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/auth': {
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/_auth': {
+      preLoaderRoute: typeof AuthAuthImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/_auth/forget-password': {
+      preLoaderRoute: typeof AuthAuthForgetPasswordImport
+      parentRoute: typeof AuthAuthImport
+    }
+    '/auth/_auth/login': {
+      preLoaderRoute: typeof AuthAuthLoginImport
+      parentRoute: typeof AuthAuthImport
+    }
+    '/auth/_auth/register': {
+      preLoaderRoute: typeof AuthAuthRegisterImport
+      parentRoute: typeof AuthAuthImport
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([IndexLazyRoute])
+export const routeTree = rootRoute.addChildren([
+  IndexLazyRoute,
+  AuthRoute.addChildren([
+    AuthAuthRoute.addChildren([
+      AuthAuthForgetPasswordRoute,
+      AuthAuthLoginRoute,
+      AuthAuthRegisterRoute,
+    ]),
+  ]),
+])
 
 /* prettier-ignore-end */
