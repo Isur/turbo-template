@@ -5,9 +5,11 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { ModeToggle } from "@/components/mode-toggle";
 import { AuthContext } from "@/features/auth/authContext";
 import { Button } from "@/components/ui/button";
+import { LangToggle } from "@/components/lang-toggle";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async ({ context }) => {
@@ -26,6 +28,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const auth = useContext(AuthContext);
+  const { t } = useTranslation("common");
   const router = useRouter();
   const logout = () => {
     auth.logout();
@@ -37,7 +40,7 @@ function Index() {
   return (
     <div className="p-2">
       <h3>
-        Welcome Home! <ModeToggle />{" "}
+        {t("welcome")} <ModeToggle /> <LangToggle />
         <Button variant="outline" onClick={logout}>
           Logout
         </Button>
