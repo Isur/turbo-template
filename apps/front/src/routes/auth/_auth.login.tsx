@@ -1,7 +1,8 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,8 +15,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { AuthContext } from "@/features/auth/authContext";
 
 export const Route = createFileRoute("/auth/_auth/login")({
+  validateSearch: z.object({
+    redirect: z.string().optional(),
+  }),
   component: LoginView,
 });
 
@@ -25,6 +30,9 @@ const formSchema = z.object({
 });
 
 function LoginView() {
+  const auth = useContext(AuthContext);
+  const router = useRouter();
+  const search = Route.useSearch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,8 +41,16 @@ function LoginView() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await auth.login(values.login, values.password);
+
+    const navTo = search.redirect || "/";
+
+    console.log(`Redirecting to ${navTo}`);
+
+    router.navigate({
+      to: navTo,
+    });
   }
 
   return (

@@ -1,8 +1,12 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, useContext } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { AuthContext, AuthProvider } from "./features/auth/authContext";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -22,9 +26,23 @@ const TanStackRouterDevtools =
           // default: res.TanStackRouterDevtoolsPanel
         })),
       );
+const TanstackQueryDevtools =
+  process.env.NODE_ENV === "production"
+    ? () => null
+    : React.lazy(() =>
+        import("@tanstack/react-query-devtools").then((res) => ({
+          default: res.ReactQueryDevtools,
+        })),
+      );
 
 // Create a new router instance
-const router = createRouter({ routeTree, context: { queryClient } });
+const router = createRouter({
+  routeTree,
+  context: {
+    queryClient: undefined!,
+    auth: undefined!,
+  },
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -33,17 +51,31 @@ declare module "@tanstack/react-router" {
   }
 }
 
+const RouterApp = () => {
+  const auth = useContext(AuthContext);
+  const queryClient = useQueryClient();
+  return <RouterProvider router={router} context={{ auth, queryClient }} />;
+};
+
+const RootApp = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterApp />
+        <TanStackRouterDevtools router={router} initialIsOpen={false} />
+        <TanstackQueryDevtools initialIsOpen={false} />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+};
+
 // Render the app
 const rootElement = document.getElementById("app")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <TanStackRouterDevtools router={router} initialIsOpen={false} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <RootApp />
     </StrictMode>,
   );
 }
