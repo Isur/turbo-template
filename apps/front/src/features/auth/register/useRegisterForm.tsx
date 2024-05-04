@@ -21,7 +21,7 @@ export const useRegisterForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    values;
   }
 
   return { form, onSubmit };

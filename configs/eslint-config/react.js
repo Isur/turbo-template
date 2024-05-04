@@ -29,6 +29,7 @@ module.exports = {
     "@typescript-eslint/no-empty-interface": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/self-closing-comp": "warn",
+    "no-console": "warn",
     "no-duplicate-imports": "warn",
     "import/newline-after-import": [
       "error",
