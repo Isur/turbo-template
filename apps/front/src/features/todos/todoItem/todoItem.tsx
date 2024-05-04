@@ -35,3 +35,31 @@ export const TodoItem: FC<TodoProps> = ({ id }) => {
     </div>
   );
 };
+export const TodoLoading: FC = () => {
+  return (
+    <div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Loading...</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Loading...</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+export const TodoError: FC<{ id: string }> = ({ id }) => {
+  return (
+    <div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Error</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-red-500">Error while loading todo: {id}</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};

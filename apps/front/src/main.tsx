@@ -39,6 +39,8 @@ const TanstackQueryDevtools =
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  defaultPreload: "intent",
+  defaultPendingMs: 100,
   context: {
     queryClient: undefined!,
     auth: undefined!,

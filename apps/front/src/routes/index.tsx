@@ -43,9 +43,6 @@ function Index() {
         <Button variant="outline" onClick={logout}>
           Logout
         </Button>
-        <Link to="/auth/login">
-          <Button variant="outline"> Login </Button>
-        </Link>
         <Link to="/todos">
           <Button variant="outline"> Todos </Button>
         </Link>

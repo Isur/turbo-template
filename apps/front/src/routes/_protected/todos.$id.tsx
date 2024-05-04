@@ -1,14 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TodoItem, getTodoQueryOptions } from "@/features/todos";
+import {
+  TodoItem,
+  getTodoQueryOptions,
+  TodoLoading,
+  TodoError,
+} from "@/features/todos";
 
 export const Route = createFileRoute("/_protected/todos/$id")({
   loader: async ({ context, params }) => {
     return context.queryClient.fetchQuery(getTodoQueryOptions(params.id));
   },
-  component: Todo,
+  component: Component,
+  pendingComponent: Pending,
+  errorComponent: Error,
 });
 
-function Todo() {
+function Error() {
+  const { id } = Route.useParams();
+  return <TodoError id={id} />;
+}
+
+function Component() {
   const { id } = Route.useParams();
   return <TodoItem id={id} />;
+}
+
+function Pending() {
+  return <TodoLoading />;
 }

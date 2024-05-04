@@ -1,10 +1,10 @@
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, Link } from "@tanstack/react-router";
 import { useTodoList } from "./useTodoList";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const TodoList = () => {
-  const { todos, goTo } = useTodoList();
+  const { todos } = useTodoList();
 
   return (
     <div className="flex flex-row">
@@ -13,8 +13,10 @@ export const TodoList = () => {
         <ScrollArea className="h-96 h-max-[300px]">
           <ul>
             {todos.data.map((d) => (
-              <li onClick={() => goTo(d.id.toString())} key={d.id}>
-                <Button variant="secondary">{d.id}</Button>
+              <li key={d.id}>
+                <Link to={`/todos/${d.id}`}>
+                  <Button variant="secondary">{d.id}</Button>
+                </Link>
               </li>
             ))}
           </ul>
