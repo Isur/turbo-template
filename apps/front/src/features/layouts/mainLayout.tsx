@@ -1,31 +1,9 @@
-import {
-  Link,
-  Outlet,
-  createFileRoute,
-  redirect,
-  useRouter,
-} from "@tanstack/react-router";
+import { Link, Outlet, useRouter } from "@tanstack/react-router";
 import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/features/auth/authContext";
 
-export const Route = createFileRoute("/_protected/_protected")({
-  component: Protected,
-  beforeLoad: async ({ context }) => {
-    console.log({ context });
-    if (!(await context.auth.isLoggedIn())) {
-      console.log({ location });
-      throw redirect({
-        to: "/auth/login",
-        search: {
-          redirect: location.pathname,
-        },
-      });
-    }
-  },
-});
-
-function Protected() {
+export const MainLayout = () => {
   const auth = useContext(AuthContext);
   const router = useRouter();
 
@@ -47,4 +25,4 @@ function Protected() {
       <Outlet />
     </div>
   );
-}
+};

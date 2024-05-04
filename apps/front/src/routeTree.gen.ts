@@ -12,18 +12,23 @@
 
 import { Route as rootRoute } from "./routes/__root";
 import { Route as AuthImport } from "./routes/auth";
+import { Route as ProtectedImport } from "./routes/_protected";
 import { Route as IndexImport } from "./routes/index";
 import { Route as AuthRegisterImport } from "./routes/auth/register";
 import { Route as AuthLoginImport } from "./routes/auth/login";
 import { Route as AuthForgetPasswordImport } from "./routes/auth/forget-password";
-import { Route as ProtectedProtectedImport } from "./routes/_protected/_protected";
-import { Route as ProtectedProtectedTodosImport } from "./routes/_protected/_protected.todos";
-import { Route as ProtectedProtectedTodosIdImport } from "./routes/_protected/_protected.todos.$id";
+import { Route as ProtectedTodosImport } from "./routes/_protected/todos";
+import { Route as ProtectedTodosIdImport } from "./routes/_protected/todos.$id";
 
 // Create/Update Routes
 
 const AuthRoute = AuthImport.update({
   path: "/auth",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const ProtectedRoute = ProtectedImport.update({
+  id: "/_protected",
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -47,19 +52,14 @@ const AuthForgetPasswordRoute = AuthForgetPasswordImport.update({
   getParentRoute: () => AuthRoute,
 } as any);
 
-const ProtectedProtectedRoute = ProtectedProtectedImport.update({
-  id: "/_protected/_protected",
-  getParentRoute: () => rootRoute,
-} as any);
-
-const ProtectedProtectedTodosRoute = ProtectedProtectedTodosImport.update({
+const ProtectedTodosRoute = ProtectedTodosImport.update({
   path: "/todos",
-  getParentRoute: () => ProtectedProtectedRoute,
+  getParentRoute: () => ProtectedRoute,
 } as any);
 
-const ProtectedProtectedTodosIdRoute = ProtectedProtectedTodosIdImport.update({
+const ProtectedTodosIdRoute = ProtectedTodosIdImport.update({
   path: "/$id",
-  getParentRoute: () => ProtectedProtectedTodosRoute,
+  getParentRoute: () => ProtectedTodosRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -70,13 +70,17 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
+    "/_protected": {
+      preLoaderRoute: typeof ProtectedImport;
+      parentRoute: typeof rootRoute;
+    };
     "/auth": {
       preLoaderRoute: typeof AuthImport;
       parentRoute: typeof rootRoute;
     };
-    "/_protected/_protected": {
-      preLoaderRoute: typeof ProtectedProtectedImport;
-      parentRoute: typeof rootRoute;
+    "/_protected/todos": {
+      preLoaderRoute: typeof ProtectedTodosImport;
+      parentRoute: typeof ProtectedImport;
     };
     "/auth/forget-password": {
       preLoaderRoute: typeof AuthForgetPasswordImport;
@@ -90,13 +94,9 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof AuthRegisterImport;
       parentRoute: typeof AuthImport;
     };
-    "/_protected/_protected/todos": {
-      preLoaderRoute: typeof ProtectedProtectedTodosImport;
-      parentRoute: typeof ProtectedProtectedImport;
-    };
-    "/_protected/_protected/todos/$id": {
-      preLoaderRoute: typeof ProtectedProtectedTodosIdImport;
-      parentRoute: typeof ProtectedProtectedTodosImport;
+    "/_protected/todos/$id": {
+      preLoaderRoute: typeof ProtectedTodosIdImport;
+      parentRoute: typeof ProtectedTodosImport;
     };
   }
 }
@@ -105,13 +105,13 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  ProtectedRoute.addChildren([
+    ProtectedTodosRoute.addChildren([ProtectedTodosIdRoute]),
+  ]),
   AuthRoute.addChildren([
     AuthForgetPasswordRoute,
     AuthLoginRoute,
     AuthRegisterRoute,
-  ]),
-  ProtectedProtectedRoute.addChildren([
-    ProtectedProtectedTodosRoute.addChildren([ProtectedProtectedTodosIdRoute]),
   ]),
 ]);
 
