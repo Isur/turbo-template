@@ -1,7 +1,6 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Link } from "@tanstack/react-router";
+import { FC } from "react";
+import { useRegisterForm } from "./useRegisterForm";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,32 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-export const Route = createFileRoute("/auth/_auth/register")({
-  component: RegisterView,
-});
-
-const formSchema = z.object({
-  login: z.string(),
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
-});
-
-function RegisterView() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      login: "",
-      password: "",
-      confirmPassword: "",
-      email: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
-
+export const RegisterForm: FC = () => {
+  const { form, onSubmit } = useRegisterForm();
   return (
     <div className="flex flex-col gap-8">
       <h2 className="text-2xl font-bold">Sign In</h2>
@@ -122,4 +97,4 @@ function RegisterView() {
       </Form>
     </div>
   );
-}
+};

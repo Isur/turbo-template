@@ -1,9 +1,6 @@
-import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useContext } from "react";
-import { Button } from "@/components/ui/button";
+import { FC } from "react";
+import { Link } from "@tanstack/react-router";
+import { useLoginForm } from "./useLoginForm";
 import {
   Form,
   FormControl,
@@ -15,43 +12,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { AuthContext } from "@/features/auth/authContext";
+import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/auth/_auth/login")({
-  validateSearch: z.object({
-    redirect: z.string().optional(),
-  }),
-  component: LoginView,
-});
+type LoginFormProps = {
+  redirect?: string;
+};
 
-const formSchema = z.object({
-  login: z.string(),
-  password: z.string(),
-});
-
-function LoginView() {
-  const auth = useContext(AuthContext);
-  const router = useRouter();
-  const search = Route.useSearch();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      login: "",
-      password: "",
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    await auth.login(values.login, values.password);
-
-    const navTo = search.redirect || "/";
-
-    console.log(`Redirecting to ${navTo}`);
-
-    router.navigate({
-      to: navTo,
-    });
-  }
+export const LoginForm: FC<LoginFormProps> = ({ redirect }) => {
+  const { form, onSubmit } = useLoginForm({ redirect });
 
   return (
     <div className="flex flex-col gap-8">
@@ -105,4 +73,4 @@ function LoginView() {
       </Form>
     </div>
   );
-}
+};

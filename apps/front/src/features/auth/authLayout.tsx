@@ -1,24 +1,8 @@
-import {
-  Link,
-  Outlet,
-  createFileRoute,
-  redirect,
-} from "@tanstack/react-router";
+import { Link, Outlet } from "@tanstack/react-router";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/auth/_auth")({
-  beforeLoad: async ({ context }) => {
-    if (await context.auth.isLoggedIn()) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
-  component: AuthLayout,
-});
-
-function AuthLayout() {
+export const AuthLayout = () => {
   return (
     <div className="w-[100%] h-[100%] m-0 p-0 flex flex-col justify-center items-center">
       <div className="flex justify-center">
@@ -32,4 +16,4 @@ function AuthLayout() {
       </div>
     </div>
   );
-}
+};

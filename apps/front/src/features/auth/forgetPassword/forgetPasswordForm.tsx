@@ -1,7 +1,5 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { Link } from "@tanstack/react-router";
+import { useForgetPasswordForm } from "./useForgetPasswordForm";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,25 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-export const Route = createFileRoute("/auth/_auth/forget-password")({
-  component: LoginView,
-});
-
-const formSchema = z.object({
-  email: z.string(),
-});
-
-function LoginView() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+export const ForgetPasswordForm = () => {
+  const { form, onSubmit } = useForgetPasswordForm();
 
   return (
     <div className="flex flex-col gap-8">
@@ -73,4 +54,4 @@ function LoginView() {
       </Form>
     </div>
   );
-}
+};
