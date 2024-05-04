@@ -10,94 +10,94 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as AuthImport } from "./routes/auth";
-import { Route as ProtectedImport } from "./routes/_protected";
-import { Route as IndexImport } from "./routes/index";
-import { Route as AuthRegisterImport } from "./routes/auth/register";
-import { Route as AuthLoginImport } from "./routes/auth/login";
-import { Route as AuthForgetPasswordImport } from "./routes/auth/forget-password";
-import { Route as ProtectedTodosImport } from "./routes/_protected/todos";
-import { Route as ProtectedTodosIdImport } from "./routes/_protected/todos.$id";
+import { Route as rootRoute } from './routes/__root'
+import { Route as AuthImport } from './routes/auth'
+import { Route as ProtectedImport } from './routes/_protected'
+import { Route as IndexImport } from './routes/index'
+import { Route as AuthRegisterImport } from './routes/auth/register'
+import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AuthForgetPasswordImport } from './routes/auth/forget-password'
+import { Route as ProtectedTodosImport } from './routes/_protected/todos'
+import { Route as ProtectedTodosIdImport } from './routes/_protected/todos.$id'
 
 // Create/Update Routes
 
 const AuthRoute = AuthImport.update({
-  path: "/auth",
+  path: '/auth',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ProtectedRoute = ProtectedImport.update({
-  id: "/_protected",
+  id: '/_protected',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  path: "/",
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthRegisterRoute = AuthRegisterImport.update({
-  path: "/register",
+  path: '/register',
   getParentRoute: () => AuthRoute,
-} as any);
+} as any)
 
 const AuthLoginRoute = AuthLoginImport.update({
-  path: "/login",
+  path: '/login',
   getParentRoute: () => AuthRoute,
-} as any);
+} as any)
 
 const AuthForgetPasswordRoute = AuthForgetPasswordImport.update({
-  path: "/forget-password",
+  path: '/forget-password',
   getParentRoute: () => AuthRoute,
-} as any);
+} as any)
 
 const ProtectedTodosRoute = ProtectedTodosImport.update({
-  path: "/todos",
+  path: '/todos',
   getParentRoute: () => ProtectedRoute,
-} as any);
+} as any)
 
 const ProtectedTodosIdRoute = ProtectedTodosIdImport.update({
-  path: "/$id",
+  path: '/$id',
   getParentRoute: () => ProtectedTodosRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_protected": {
-      preLoaderRoute: typeof ProtectedImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/auth": {
-      preLoaderRoute: typeof AuthImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/_protected/todos": {
-      preLoaderRoute: typeof ProtectedTodosImport;
-      parentRoute: typeof ProtectedImport;
-    };
-    "/auth/forget-password": {
-      preLoaderRoute: typeof AuthForgetPasswordImport;
-      parentRoute: typeof AuthImport;
-    };
-    "/auth/login": {
-      preLoaderRoute: typeof AuthLoginImport;
-      parentRoute: typeof AuthImport;
-    };
-    "/auth/register": {
-      preLoaderRoute: typeof AuthRegisterImport;
-      parentRoute: typeof AuthImport;
-    };
-    "/_protected/todos/$id": {
-      preLoaderRoute: typeof ProtectedTodosIdImport;
-      parentRoute: typeof ProtectedTodosImport;
-    };
+    '/': {
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected': {
+      preLoaderRoute: typeof ProtectedImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth': {
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected/todos': {
+      preLoaderRoute: typeof ProtectedTodosImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/auth/forget-password': {
+      preLoaderRoute: typeof AuthForgetPasswordImport
+      parentRoute: typeof AuthImport
+    }
+    '/auth/login': {
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthImport
+    }
+    '/auth/register': {
+      preLoaderRoute: typeof AuthRegisterImport
+      parentRoute: typeof AuthImport
+    }
+    '/_protected/todos/$id': {
+      preLoaderRoute: typeof ProtectedTodosIdImport
+      parentRoute: typeof ProtectedTodosImport
+    }
   }
 }
 
@@ -113,6 +113,6 @@ export const routeTree = rootRoute.addChildren([
     AuthLoginRoute,
     AuthRegisterRoute,
   ]),
-]);
+])
 
 /* prettier-ignore-end */

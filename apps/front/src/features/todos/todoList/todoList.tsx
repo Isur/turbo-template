@@ -13,7 +13,7 @@ export const TodoList = () => {
         <ScrollArea className="h-96 h-max-[300px]">
           <ul>
             {todos.data.map((d) => (
-              <li onClick={() => goTo(d.id)} key={d.id}>
+              <li onClick={() => goTo(d.id.toString())} key={d.id}>
                 <Button variant="secondary">{d.id}</Button>
               </li>
             ))}
