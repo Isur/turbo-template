@@ -69,6 +69,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../configs/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../configs/typescript-config
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.21
