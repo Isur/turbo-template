@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "files": [
-    "react.js"
+    "react.js",
+    "node.js"
   ],
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.32.1",

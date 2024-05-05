@@ -17,7 +17,7 @@ export const getTodoQueryOptions = (id: string) =>
     queryKey: ["todo", id],
     queryFn: async (): Promise<Todo> => {
       const todos = await fetch(
-        `https://jsonplaceholder.typicode.com/todos/${id}`,
+        `https://jsonplaceholder.typicode.com/todos/${id}`
       );
       const res = await todos.json();
       await sleep(3000);

@@ -25,7 +25,7 @@ const TanStackRouterDevtools =
           default: res.TanStackRouterDevtools,
           // For Embedded Mode
           // default: res.TanStackRouterDevtoolsPanel
-        })),
+        }))
       );
 const TanstackQueryDevtools =
   process.env.NODE_ENV === "production"
@@ -33,7 +33,7 @@ const TanstackQueryDevtools =
     : React.lazy(() =>
         import("@tanstack/react-query-devtools").then((res) => ({
           default: res.ReactQueryDevtools,
-        })),
+        }))
       );
 
 // Create a new router instance
@@ -79,6 +79,6 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <RootApp />
-    </StrictMode>,
+    </StrictMode>
   );
 }
