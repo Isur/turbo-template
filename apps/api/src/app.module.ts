@@ -4,6 +4,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { HealthModule } from "./health/health.module";
+import { TodosModule } from "./todos/todos.module";
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { HealthModule } from "./health/health.module";
       exclude: ["/api/(.*)"],
     }),
     HealthModule,
+    TodosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
