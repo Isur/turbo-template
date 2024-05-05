@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Translation check
+        run: pnpm fjv
+
       - name: Lint
         run: pnpm lint
 
