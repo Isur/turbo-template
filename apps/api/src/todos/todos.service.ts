@@ -16,6 +16,10 @@ export class TodosService {
   }
 
   async findOne(id: number): Promise<Todo> {
+    if (id === 4) {
+      return null;
+    }
+
     const res = await firstValueFrom(
       this.httpService.get("https://jsonplaceholder.typicode.com/todos/" + id)
     );

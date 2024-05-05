@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, ErrorComponentProps } from "@tanstack/react-router";
+import { ApiError } from "@repo/api-client";
 import {
   TodoItem,
   getTodoQueryOptions,
@@ -7,7 +8,7 @@ import {
 } from "@/features/todos";
 
 export const Route = createFileRoute("/_protected/todos/$id")({
-  loader: async ({ context, params }) => {
+  loader: ({ context, params }) => {
     return context.queryClient.fetchQuery(getTodoQueryOptions(params.id));
   },
   component: Component,
@@ -15,9 +16,9 @@ export const Route = createFileRoute("/_protected/todos/$id")({
   errorComponent: Error,
 });
 
-function Error() {
+function Error({ error }: ErrorComponentProps) {
   const { id } = Route.useParams();
-  return <TodoError id={id} />;
+  if (error instanceof ApiError) return <TodoError id={id} error={error} />;
 }
 
 function Component() {

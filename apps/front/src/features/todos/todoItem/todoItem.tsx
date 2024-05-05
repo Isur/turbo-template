@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { ApiError } from "@repo/api-client";
+import { useTranslation } from "react-i18next";
 import { useTodoItem } from "./useTodoItem";
 import {
   Card,
@@ -49,15 +51,24 @@ export const TodoLoading: FC = () => {
     </div>
   );
 };
-export const TodoError: FC<{ id: string }> = ({ id }) => {
+export const TodoError: FC<{ id: string; error: ApiError }> = ({
+  id,
+  error,
+}) => {
+  const { t } = useTranslation("errors");
   return (
     <div>
       <Card>
         <CardHeader>
           <CardTitle>Error</CardTitle>
+          <CardDescription>
+            {error.status}: {t(`todos.${error.code}`)}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-red-500">Error while loading todo: {id}</p>
+          <p className="text-red-500">
+            {t("todos.error")} {id}
+          </p>
         </CardContent>
       </Card>
     </div>

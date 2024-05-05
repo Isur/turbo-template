@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getHello } from "./api";
+import { helloApi } from "@repo/api-client";
 
 export const getHelloOptions = queryOptions({
   queryKey: ["hello"],
-  queryFn: getHello,
+  queryFn: helloApi.getHello,
 });

@@ -1,0 +1,6 @@
+{
+  "todos": {
+    "error": "Error while loading todo: ",
+    "not_found": "Todo not found!"
+  }
+}

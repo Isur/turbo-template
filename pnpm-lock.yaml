@@ -147,6 +147,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.3.1)(react@18.3.1)
+      '@repo/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@tanstack/react-query':
         specifier: ^5.32.1
         version: 5.32.1(react@18.3.1)
@@ -288,6 +291,22 @@ importers:
         version: 5.4.5
 
   configs/typescript-config: {}
+
+  packages/api-client:
+    dependencies:
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../configs/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../configs/typescript-config
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
 
 packages:
 
