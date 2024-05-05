@@ -10,6 +10,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
     "typecheck": "turbo typecheck",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck",
+    "check:fix": "pnpm format && pnpm lint:fix",
     "start": "node ./apps/api/dist/main.js",
     "prod": "pnpm build && pnpm start"
   },

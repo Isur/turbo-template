@@ -4,6 +4,14 @@
 $ pnpm install
 ```
 
+## Config
+
+Some configs in env file: `.env`.
+
+| Name | Description         | Default |
+| ---- | ------------------- | ------- |
+| PORT | Port to run the app | 3000    |
+
 ## Running the app
 
 ```bash
