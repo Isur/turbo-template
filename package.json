@@ -1,5 +1,6 @@
 {
-  "name": "template",
+  "name": "turbo-template",
+  "repository": "https://github.com/Isur/turbo-template",
   "private": true,
   "scripts": {
     "build": "turbo build",
