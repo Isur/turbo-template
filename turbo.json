@@ -6,18 +6,12 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "lint:fix": {
-      "dependsOn": ["^lint:fix"]
-    },
+    "lint": {},
+    "lint:fix": {},
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": ["^build"]
     },
-    "fjv": {
-      "dependsOn": ["^fjv"]
-    },
+    "fjv": {},
     "dev": {
       "cache": false,
       "persistent": true
