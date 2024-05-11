@@ -11,4 +11,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get("db")
+  @ApiResponse({ status: 200, description: "DB response", type: String })
+  async getDb(): Promise<Record<string, unknown>> {
+    const result = await this.appService.getSomethingFromDb();
+    return result;
+  }
 }
