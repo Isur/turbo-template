@@ -7,6 +7,7 @@ import { AppService } from "./app.service";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
 import appConfig from "./config/app.config";
+import dbConfig from "./config/db.config";
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import appConfig from "./config/app.config";
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig],
+      load: [appConfig, dbConfig],
       cache: true,
       expandVariables: true,
     }),
