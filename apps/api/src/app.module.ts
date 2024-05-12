@@ -28,6 +28,8 @@ import { schema } from "./drizzle";
     TodosModule,
     DrizzleModule.forRootAsync({
       inject: [ConfigService],
+      tag: "MyDrizzleConnection",
+      isGlobal: false,
       useFactory: async (configService: ConfigService) => {
         const dbConfig = configService.get<DbConfig>(CONFIGKEYS.DB);
         return {

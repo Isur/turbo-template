@@ -17,7 +17,8 @@ export class DrizzleModule extends ConfigurableModuleClass {
         ...providers,
         DrizzleService,
         {
-          provide: DRIZZLE_PROVIDER,
+          provide: opts?.tag ?? DRIZZLE_PROVIDER,
+          global: opts?.isGlobal ?? false,
           useFactory: async (
             drizzleService: DrizzleService,
             config: ConfigModuleOptions
@@ -27,7 +28,7 @@ export class DrizzleModule extends ConfigurableModuleClass {
           inject: [DrizzleService, MODULE_OPTIONS_TOKEN],
         },
       ],
-      exports: [...exports, DRIZZLE_PROVIDER],
+      exports: [...exports, opts?.tag ?? DRIZZLE_PROVIDER],
     };
   }
 }
