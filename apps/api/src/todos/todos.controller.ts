@@ -11,6 +11,11 @@ export class TodosController {
     return await this.todosService.findAll();
   }
 
+  @Get("lol")
+  async findLol() {
+    return await this.todosService.lol();
+  }
+
   @Get(":id")
   async findOne(@Param("id") id: string) {
     const todo = await this.todosService.findOne(+id);

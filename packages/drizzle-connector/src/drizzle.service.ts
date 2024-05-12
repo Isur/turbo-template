@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Client } from "pg";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
-import { ConfigModuleOptions } from "./interfaces/config-module-options.interface";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { ConfigModuleOptions } from "./interfaces/config-module-options.interface";
 
 @Injectable()
 export class DrizzleService {

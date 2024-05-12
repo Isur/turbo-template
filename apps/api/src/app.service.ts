@@ -1,14 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { helloWorld } from "@repo/hello-world-package";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { sql } from "drizzle-orm";
 import { DB } from "./database";
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject("MyDrizzleConnection") private readonly db: NodePgDatabase<DB>
-  ) {}
+  constructor(@Inject("MyDrizzleConnection") private readonly db: DB) {}
 
   getHello(): string {
     return helloWorld();

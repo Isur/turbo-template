@@ -7,9 +7,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
-import { DbConfig, CONFIGKEYS } from "./config";
 import appConfig from "./config/app.config";
 import dbConfig from "./config/db.config";
+import { CONFIGKEYS, DbConfig } from "./config";
 import { schema } from "./database";
 
 @Module({
@@ -29,7 +29,7 @@ import { schema } from "./database";
     DrizzleModule.forRootAsync({
       inject: [ConfigService],
       tag: "MyDrizzleConnection",
-      isGlobal: false,
+      isGlobal: true,
       useFactory: async (configService: ConfigService) => {
         const dbConfig = configService.get<DbConfig>(CONFIGKEYS.DB);
         return {

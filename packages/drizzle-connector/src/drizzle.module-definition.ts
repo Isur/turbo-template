@@ -11,7 +11,7 @@ export const {
   .setClassMethodName("forRoot")
   .setExtras({ tag: DRIZZLE_PROVIDER, isGlobal: false }, (def, ext) => ({
     ...def,
-    isGlobal: ext.isGlobal,
+    global: ext.isGlobal,
     tag: ext.tag,
   }))
   .build();
