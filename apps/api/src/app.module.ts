@@ -39,6 +39,7 @@ import { schema } from "./database";
             password: dbConfig.password,
             user: dbConfig.user,
             database: dbConfig.database,
+            migrationsFolder: dbConfig.migrationsFolder,
           },
           config: { schema },
         };

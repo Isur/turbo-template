@@ -7,6 +7,7 @@ export interface ConfigModuleOptions {
     user: string;
     password: string;
     database: string;
+    migrationsFolder: string;
   };
   config?: DrizzleConfig<any> | undefined;
 }

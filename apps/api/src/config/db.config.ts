@@ -7,6 +7,7 @@ export interface DbConfig {
   user: string;
   password: string;
   database: string;
+  migrationsFolder: string;
 }
 
 export default registerAs(CONFIGKEYS.DB, () => ({
@@ -14,5 +15,6 @@ export default registerAs(CONFIGKEYS.DB, () => ({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "local",
   password: process.env.DB_PASSWORD || "local",
-  database: process.env.DB_DATABASE || "local",
+  database: process.env.DB_DATABASE || "template",
+  migrationsFolder: process.env.DB_MIGRATIONS_FOLDER || "./drizzle",
 }));
