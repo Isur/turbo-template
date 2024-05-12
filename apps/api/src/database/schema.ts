@@ -1,9 +1,12 @@
-import { serial, text, pgTable, pgEnum } from "drizzle-orm/pg-core";
+import { serial, text, pgTable, boolean } from "drizzle-orm/pg-core";
 
-export const colors = pgEnum("colors", ["red", "green", "blue"]);
-
-export const users = pgTable("users", {
+export const init = pgTable("init", {
   id: serial("id").primaryKey(),
-  name: text("name"),
-  color: colors("color").default("blue"),
+  seed: boolean("done").default(false),
+});
+
+export const todos = pgTable("todos", {
+  id: serial("id").primaryKey(),
+  title: text("title"),
+  completed: boolean("completed"),
 });

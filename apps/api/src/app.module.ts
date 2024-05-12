@@ -3,14 +3,13 @@ import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DrizzleModule } from "@repo/drizzle-connector";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
 import appConfig from "./config/app.config";
 import dbConfig from "./config/db.config";
 import { CONFIGKEYS, DbConfig } from "./config";
-import { schema } from "./database";
+import { DB_TOKEN, schema } from "./database";
+import { SeedModule } from "./seed/seed.module";
 
 @Module({
   imports: [
@@ -28,7 +27,7 @@ import { schema } from "./database";
     TodosModule,
     DrizzleModule.forRootAsync({
       inject: [ConfigService],
-      tag: "MyDrizzleConnection",
+      tag: DB_TOKEN,
       isGlobal: true,
       useFactory: async (configService: ConfigService) => {
         const dbConfig = configService.get<DbConfig>(CONFIGKEYS.DB);
@@ -45,8 +44,9 @@ import { schema } from "./database";
         };
       },
     }),
+    SeedModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -3,3 +3,4 @@ import * as schema from "./schema";
 
 export type DBSchema = typeof schema;
 export type DB = NodePgDatabase<DBSchema>;
+export const DB_TOKEN = "MyDrizzleConnection";

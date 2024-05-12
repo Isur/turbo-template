@@ -1,40 +1,29 @@
-import { HttpService } from "@nestjs/axios";
-import { Inject, Injectable } from "@nestjs/common";
-import { firstValueFrom } from "rxjs";
-import { sql } from "drizzle-orm";
-import { DB } from "../database";
+import { HttpException, Inject, Injectable } from "@nestjs/common";
+import { eq } from "drizzle-orm";
+import { DB, DB_TOKEN } from "../database";
+import { todos } from "../database/schema";
 import { Todo } from "./entities/todo.entity";
 
 @Injectable()
 export class TodosService {
-  constructor(
-    private readonly httpService: HttpService,
-    @Inject("MyDrizzleConnection") private readonly db: DB
-  ) {}
+  constructor(@Inject(DB_TOKEN) private readonly db: DB) {}
 
-  async findAll(): Promise<Array<Todo>> {
-    const res = await firstValueFrom(
-      this.httpService.get("https://jsonplaceholder.typicode.com/todos")
-    );
-
-    return res.data;
+  async findAll(): Promise<unknown> {
+    const todos = await this.db.query.todos.findMany();
+    return todos;
   }
 
   async findOne(id: number): Promise<Todo> {
-    if (id === 4) {
-      return null;
+    const todo = await this.db
+      .select()
+      .from(todos)
+      .where(eq(todos.id, id))
+      .limit(1);
+
+    if (todo.length === 0) {
+      throw new HttpException("Todo not found", 404);
     }
 
-    const res = await firstValueFrom(
-      this.httpService.get("https://jsonplaceholder.typicode.com/todos/" + id)
-    );
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return res.data;
-  }
-
-  async lol() {
-    return (await this.db.execute(sql`SELECT now()`)).rows[0];
+    return todo[0];
   }
 }
