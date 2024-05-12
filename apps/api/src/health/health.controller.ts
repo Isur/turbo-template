@@ -6,6 +6,7 @@ import {
   HttpHealthIndicator,
   MemoryHealthIndicator,
 } from "@nestjs/terminus";
+import { DrizzleHealthIndicator } from "./drizzle.health";
 
 @Controller("health")
 export class HealthController {
@@ -13,7 +14,8 @@ export class HealthController {
     private readonly health: HealthCheckService,
     private readonly http: HttpHealthIndicator,
     private readonly disk: DiskHealthIndicator,
-    private readonly memory: MemoryHealthIndicator
+    private readonly memory: MemoryHealthIndicator,
+    private readonly db: DrizzleHealthIndicator
   ) {}
 
   @Get()
@@ -27,6 +29,7 @@ export class HealthController {
           path: "/",
         }),
       () => this.memory.checkHeap("memory", 512 * 1024 * 1024),
+      () => this.db.isHealthy("drizzle"),
     ]);
   }
 }
