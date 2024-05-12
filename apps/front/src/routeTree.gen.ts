@@ -18,7 +18,6 @@ import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordImport } from './routes/auth/forget-password'
 import { Route as ProtectedTodosImport } from './routes/_protected/todos'
-import { Route as ProtectedHelloImport } from './routes/_protected/hello'
 import { Route as ProtectedHealthImport } from './routes/_protected/health'
 import { Route as ProtectedTodosIdImport } from './routes/_protected/todos.$id'
 
@@ -59,11 +58,6 @@ const ProtectedTodosRoute = ProtectedTodosImport.update({
   getParentRoute: () => ProtectedRoute,
 } as any)
 
-const ProtectedHelloRoute = ProtectedHelloImport.update({
-  path: '/hello',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-
 const ProtectedHealthRoute = ProtectedHealthImport.update({
   path: '/health',
   getParentRoute: () => ProtectedRoute,
@@ -92,10 +86,6 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/health': {
       preLoaderRoute: typeof ProtectedHealthImport
-      parentRoute: typeof ProtectedImport
-    }
-    '/_protected/hello': {
-      preLoaderRoute: typeof ProtectedHelloImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/todos': {
@@ -127,7 +117,6 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   ProtectedRoute.addChildren([
     ProtectedHealthRoute,
-    ProtectedHelloRoute,
     ProtectedTodosRoute.addChildren([ProtectedTodosIdRoute]),
   ]),
   AuthRoute.addChildren([

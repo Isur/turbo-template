@@ -2,7 +2,6 @@ import { apiClient } from "../client";
 
 type Todo = {
   id: number;
-  userId: number;
   title: string;
   completed: boolean;
 };

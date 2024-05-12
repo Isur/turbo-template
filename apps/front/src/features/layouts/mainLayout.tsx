@@ -23,9 +23,6 @@ export const MainLayout = () => {
       <Link to="/">
         <Button variant="outline"> Home </Button>
       </Link>
-      <Link to="/hello">
-        <Button variant="outline"> Hello </Button>
-      </Link>
       <Link to="/health">
         <Button variant="outline"> Health </Button>
       </Link>

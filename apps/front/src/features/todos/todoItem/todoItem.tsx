@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -30,9 +29,6 @@ export const TodoItem: FC<TodoProps> = ({ id }) => {
         <CardContent>
           <p>{todo.data.title}</p>
         </CardContent>
-        <CardFooter>
-          <p>User: {todo.data.userId}</p>
-        </CardFooter>
       </Card>
     </div>
   );
