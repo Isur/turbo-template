@@ -2,15 +2,15 @@ import { join } from "path";
 import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { DrizzleModule } from "@repo/drizzle-connector";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
-import { DrizzleModule } from "./drizzle/drizzle.module";
 import { DbConfig, CONFIGKEYS } from "./config";
 import appConfig from "./config/app.config";
 import dbConfig from "./config/db.config";
-import { schema } from "./drizzle";
+import { schema } from "./database";
 
 @Module({
   imports: [
