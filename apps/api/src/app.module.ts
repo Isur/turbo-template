@@ -10,6 +10,8 @@ import dbConfig from "./config/db.config";
 import { CONFIGKEYS, DbConfig } from "./config";
 import { DB_TOKEN, schema } from "./database";
 import { SeedModule } from "./seed/seed.module";
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { SeedModule } from "./seed/seed.module";
       },
     }),
     SeedModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
