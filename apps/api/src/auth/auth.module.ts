@@ -16,10 +16,13 @@ import { JwtAuthGuard } from "./jwt/jwt-auth.guard";
     PassportModule,
     UsersModule,
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<AppConfig>(CONFIGKEYS.APP).jwtSecret,
-        signOptions: { expiresIn: "1h" },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const config = configService.get<AppConfig>(CONFIGKEYS.APP);
+        return {
+          secret: config.jwtSecret,
+          signOptions: { expiresIn: config.jwtExpiresIn },
+        };
+      },
       inject: [ConfigService],
     }),
   ],
