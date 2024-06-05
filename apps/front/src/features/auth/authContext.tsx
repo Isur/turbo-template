@@ -1,39 +1,69 @@
-import { createContext, FC, PropsWithChildren } from "react";
+import { authApi } from "@repo/api-client";
+import {
+  PropsWithChildren,
+  useContext,
+  useState,
+  createContext,
+  useEffect,
+} from "react";
 
-export type IAuthContext = {
-  isLoggedIn: () => Promise<boolean>;
+export interface AuthContextProps {
   login: (login: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  getProfile: () => Promise<{ id: number; name: string } | null>;
+  profile: { id: number; name: string } | null;
+}
+
+export const AuthContext = createContext<AuthContextProps | undefined>(
+  undefined
+);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
 };
 
-export const AuthContext = createContext<IAuthContext>({
-  isLoggedIn: async () => false,
-  login: async () => {},
-  logout: async () => {},
-});
+export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [profile, setProfile] = useState<{ id: number; name: string } | null>(
+    null
+  );
 
-export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
-  const isLoggedIn = async () => localStorage.getItem("user") === "true";
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const login = async (login: string, password: string) => {
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (login !== "admin" || password !== "admin") {
-          reject();
-        } else {
-          localStorage.setItem("user", "true");
-          resolve();
-        }
-      }, 3000);
-    });
+    await authApi.login({ login, password });
+    const profile = await authApi.getProfile();
+    setProfile(profile);
   };
 
   const logout = async () => {
-    localStorage.removeItem("user");
+    setProfile(null);
+    await authApi.logout();
+  };
+
+  const getProfile = async () => {
+    if (profile) {
+      return profile;
+    } else {
+      try {
+        const prof = await authApi.getProfile();
+        setProfile(prof);
+        return prof;
+      } catch {
+        return null;
+      }
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ login, logout, getProfile, profile }}>
       {children}
     </AuthContext.Provider>
   );

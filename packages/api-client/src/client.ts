@@ -12,12 +12,14 @@ type ApiRequest = {
   params?: {
     [key: string]: string | number | boolean | Date;
   };
+  data?: unknown;
 };
 
 export async function apiClient<TResponse>({
   url,
   method = "GET",
   params,
+  data,
 }: ApiRequest): Promise<TResponse> {
   try {
     const res = await api.request<TResponse>({
@@ -27,6 +29,7 @@ export async function apiClient<TResponse>({
       headers: {
         "Content-Type": "application/json",
       },
+      data,
     });
 
     return res.data;

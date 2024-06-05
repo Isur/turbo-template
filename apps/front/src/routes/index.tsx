@@ -13,7 +13,7 @@ import { LangToggle } from "@/components/lang-toggle";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async ({ context }) => {
-    if (!(await context.auth.isLoggedIn())) {
+    if (!(await context.auth.getProfile())) {
       throw redirect({
         to: "/auth/login",
         search: {

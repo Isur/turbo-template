@@ -4,11 +4,12 @@ import { MainLayout } from "@/features/layouts/mainLayout";
 export const Route = createFileRoute("/_protected")({
   component: MainLayout,
   beforeLoad: async ({ context }) => {
-    if (!(await context.auth.isLoggedIn())) {
+    const auth = await context.auth.getProfile();
+    if (auth === null) {
       throw redirect({
         to: "/auth/login",
         search: {
-          redirect: location.pathname,
+          redirect: location.href,
         },
       });
     }

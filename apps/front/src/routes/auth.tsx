@@ -1,11 +1,16 @@
+import { z } from "zod";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AuthLayout } from "@/features/auth/authLayout";
 
 export const Route = createFileRoute("/auth")({
-  beforeLoad: async ({ context }) => {
-    if (await context.auth.isLoggedIn()) {
+  validateSearch: z.object({
+    redirect: z.string().optional(),
+  }),
+  beforeLoad: async ({ context, search }) => {
+    const auth = await context.auth.getProfile();
+    if (auth) {
       throw redirect({
-        to: "/",
+        to: search.redirect || "/",
       });
     }
   },

@@ -1,4 +1,4 @@
-import React, { StrictMode, useContext } from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import {
@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
   useQueryClient,
 } from "@tanstack/react-query";
-import { AuthContext, AuthProvider } from "./features/auth/authContext";
+import { useAuth, AuthProvider } from "./features/auth/authContext";
 import "./i18n";
 import "./index.css";
 
@@ -55,7 +55,7 @@ declare module "@tanstack/react-router" {
 }
 
 const RouterApp = () => {
-  const auth = useContext(AuthContext);
+  const auth = useAuth();
   const queryClient = useQueryClient();
   return <RouterProvider router={router} context={{ auth, queryClient }} />;
 };
