@@ -1,3 +1,9 @@
 {
-  "welcome": "Welcome PL"
+  "welcome": "Witamy!",
+  "mainLayout": {
+    "home": "Główna",
+    "health": "Status",
+    "todos": "Zadania",
+    "logout": "Wyloguj"
+  }
 }

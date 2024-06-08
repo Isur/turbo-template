@@ -11,7 +11,6 @@ import i18n from "@/i18n";
 const languages = [
   { code: "en", name: "English" },
   { code: "pl", name: "Polski" },
-  { code: "fr", name: "French" },
 ];
 
 export function LangToggle() {
