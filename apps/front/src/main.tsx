@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useAuth, AuthProvider } from "./features/auth/authContext";
+import { useAuth, AuthProvider } from "./features/auth";
 import "./i18n";
 import "./index.css";
 

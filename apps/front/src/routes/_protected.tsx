@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { MainLayout } from "@/features/layouts/mainLayout";
+import { MainLayout } from "@/features/mainLayout";
 
 export const Route = createFileRoute("/_protected")({
   component: MainLayout,

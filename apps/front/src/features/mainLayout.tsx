@@ -2,7 +2,7 @@ import { Link, Outlet, useRouter } from "@tanstack/react-router";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { AuthContext } from "@/features/auth/authContext";
+import { AuthContext } from "@/features/auth";
 import { ModeToggle } from "@/components/mode-toggle";
 import { LangToggle } from "@/components/lang-toggle";
 
