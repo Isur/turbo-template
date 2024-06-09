@@ -12,6 +12,7 @@ import { DB_TOKEN, schema } from "./database";
 import { SeedModule } from "./seed/seed.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { MailModule } from "./mail/mail.module";
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { UsersModule } from "./users/users.module";
     SeedModule,
     AuthModule,
     UsersModule,
+    MailModule,
   ],
   controllers: [],
   providers: [],

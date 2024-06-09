@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import {
   HealthIndicator,
   HealthIndicatorResult,
@@ -9,6 +9,7 @@ import { DB, DB_TOKEN } from "src/database";
 
 @Injectable()
 export class DrizzleHealthIndicator extends HealthIndicator {
+  private readonly logger = new Logger(DrizzleHealthIndicator.name);
   constructor(@Inject(DB_TOKEN) private readonly db: DB) {
     super();
   }
@@ -23,7 +24,8 @@ export class DrizzleHealthIndicator extends HealthIndicator {
       }
       return this.getStatus(key, true);
     } catch (error) {
-      throw new HealthCheckError("Drizzle failed", error);
+      this.logger.error(error);
+      return this.getStatus(key, false);
     }
   }
 }
