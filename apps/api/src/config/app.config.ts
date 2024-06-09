@@ -8,6 +8,7 @@ export interface AppConfig {
   jwtExpiresIn: number;
   mailer: Mailers;
   sendgridApiKey: string;
+  sendingMail: string;
 }
 
 export default registerAs(
@@ -21,5 +22,6 @@ export default registerAs(
       parseInt(process.env.JWT_EXPIRES_IN, 10) || 1000 * 60 * 60 * 24, // 1 day
     mailer: (process.env.MAILER as Mailers) || "console",
     sendgridApiKey: process.env.SENDGRID_API_KEY || "",
+    sendingMail: process.env.SENDING_MAIL || "",
   })
 );
