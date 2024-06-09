@@ -10,12 +10,24 @@ import { MailService } from "./mail.service";
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const appConfig = configService.get<AppConfig>(CONFIGKEYS.APP);
-        return {
-          mailer: appConfig.mailer,
-        };
+        switch (appConfig.mailer) {
+          case "sendgrid":
+            return {
+              mailer: appConfig.mailer,
+              config: {
+                apiKey: appConfig.sendgridApiKey,
+              },
+            };
+          default:
+            return {
+              mailer: appConfig.mailer,
+              config: null,
+            };
+        }
       },
     }),
   ],
   providers: [MailService],
+  exports: [MailService],
 })
 export class MailModule {}

@@ -8,13 +8,14 @@ export class MailerFactory {
 
   public async getMailer({
     mailer,
+    config,
   }: ConfigModuleOptions): Promise<MailerInterface> {
     if (mailer === "console") {
       const { Console } = await import("./mailers/console");
       return new Console();
-    } else if (mailer === "consoler") {
-      const { Consoler } = await import("./mailers/consoler");
-      return new Consoler();
+    } else if (mailer === "sendgrid") {
+      const { Sendgrid } = await import("./mailers/sendgrid");
+      return new Sendgrid(config);
     }
 
     this.logger.error(`Unknown mailer: ${mailer}`);

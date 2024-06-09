@@ -2,8 +2,10 @@ export type MailOptions = {
   from: string;
   to: string;
   subject: string;
-  content: string;
-  data: Record<string, unknown>;
+  html: string;
+  text: string;
+  cc?: Array<string>;
+  bcc?: Array<string>;
 };
 
 export interface MailerInterface {
