@@ -79,42 +79,72 @@ const ProtectedTodosIdRoute = ProtectedTodosIdImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
     '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
     '/_protected/health': {
+      id: '/_protected/health'
+      path: '/health'
+      fullPath: '/health'
       preLoaderRoute: typeof ProtectedHealthImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/todos': {
+      id: '/_protected/todos'
+      path: '/todos'
+      fullPath: '/todos'
       preLoaderRoute: typeof ProtectedTodosImport
       parentRoute: typeof ProtectedImport
     }
     '/auth/forget-password': {
+      id: '/auth/forget-password'
+      path: '/forget-password'
+      fullPath: '/auth/forget-password'
       preLoaderRoute: typeof AuthForgetPasswordImport
       parentRoute: typeof AuthImport
     }
     '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof AuthImport
     }
     '/auth/register': {
+      id: '/auth/register'
+      path: '/register'
+      fullPath: '/auth/register'
       preLoaderRoute: typeof AuthRegisterImport
       parentRoute: typeof AuthImport
     }
     '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
     }
     '/_protected/todos/$id': {
+      id: '/_protected/todos/$id'
+      path: '/$id'
+      fullPath: '/todos/$id'
       preLoaderRoute: typeof ProtectedTodosIdImport
       parentRoute: typeof ProtectedTodosImport
     }
@@ -123,17 +153,86 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
-  LayoutRoute.addChildren([LayoutIndexRoute]),
-  ProtectedRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
+  LayoutRoute: LayoutRoute.addChildren({ LayoutIndexRoute }),
+  ProtectedRoute: ProtectedRoute.addChildren({
     ProtectedHealthRoute,
-    ProtectedTodosRoute.addChildren([ProtectedTodosIdRoute]),
-  ]),
-  AuthRoute.addChildren([
+    ProtectedTodosRoute: ProtectedTodosRoute.addChildren({
+      ProtectedTodosIdRoute,
+    }),
+  }),
+  AuthRoute: AuthRoute.addChildren({
     AuthForgetPasswordRoute,
     AuthLoginRoute,
     AuthRegisterRoute,
-  ]),
-])
+  }),
+})
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/_layout",
+        "/_protected",
+        "/auth"
+      ]
+    },
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/"
+      ]
+    },
+    "/_protected": {
+      "filePath": "_protected.tsx",
+      "children": [
+        "/_protected/health",
+        "/_protected/todos"
+      ]
+    },
+    "/auth": {
+      "filePath": "auth.tsx",
+      "children": [
+        "/auth/forget-password",
+        "/auth/login",
+        "/auth/register"
+      ]
+    },
+    "/_protected/health": {
+      "filePath": "_protected/health.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/todos": {
+      "filePath": "_protected/todos.tsx",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/todos/$id"
+      ]
+    },
+    "/auth/forget-password": {
+      "filePath": "auth/forget-password.tsx",
+      "parent": "/auth"
+    },
+    "/auth/login": {
+      "filePath": "auth/login.tsx",
+      "parent": "/auth"
+    },
+    "/auth/register": {
+      "filePath": "auth/register.tsx",
+      "parent": "/auth"
+    },
+    "/_layout/": {
+      "filePath": "_layout.index.tsx",
+      "parent": "/_layout"
+    },
+    "/_protected/todos/$id": {
+      "filePath": "_protected/todos.$id.tsx",
+      "parent": "/_protected/todos"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
