@@ -8,6 +8,20 @@
       "when": 1715525210360,
       "tag": "0000_cultured_rhino",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1718127338882,
+      "tag": "0001_brave_kate_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1718127500084,
+      "tag": "0002_adorable_midnight",
+      "breakpoints": true
     }
   ]
 }
