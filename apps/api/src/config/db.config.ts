@@ -16,5 +16,4 @@ export default registerAs(CONFIGKEYS.DB, () => ({
   user: process.env.DB_USER || "local",
   password: process.env.DB_PASSWORD || "local",
   database: process.env.DB_DATABASE || "template",
-  migrationsFolder: process.env.DB_MIGRATIONS_FOLDER || "./drizzle",
 }));

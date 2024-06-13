@@ -1,0 +1,25 @@
+services:
+  app:
+    container_name: turbo-template-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env.docker
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: turbo-template-db
+    volumes:
+      - ./docker_data/psql:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=local
+      - POSTGRES_PASSWORD=local
+      - POSTGRES_DB=turbo-template
+      - TZ="Europe/Warsaw"

@@ -17,7 +17,7 @@ import { MailModule } from "./mail/mail.module";
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "..", "front", "dist"),
+      rootPath: join(__dirname, "..", "..", "..", "front", "dist"),
       exclude: ["/api/(.*)"],
     }),
     ConfigModule.forRoot({
@@ -41,7 +41,7 @@ import { MailModule } from "./mail/mail.module";
             password: dbConfig.password,
             user: dbConfig.user,
             database: dbConfig.database,
-            migrationsFolder: dbConfig.migrationsFolder,
+            migrationsFolder: "./drizzle",
           },
           config: { schema },
         };
