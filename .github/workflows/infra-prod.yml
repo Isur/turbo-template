@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - "infra/prod/**"
+  workflow_dispatch:
 
 jobs:
   job:
