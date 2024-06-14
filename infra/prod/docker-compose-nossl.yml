@@ -9,11 +9,11 @@ services:
   database:
     image: postgres:16
     container_name: postgresql
+    env_file: ./.env.db
     volumes:
       - ./data/psql:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    env_file: ./.env.db
 
   web:
     image: nginx
