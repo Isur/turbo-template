@@ -5,6 +5,7 @@ on:
     paths:
       - "apps/**"
       - "packages/**"
+      - "configs/**"
   pull_request:
   workflow_dispatch:
 
