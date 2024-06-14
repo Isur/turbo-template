@@ -46,4 +46,4 @@ jobs:
 
       - name: Restart app
         run: |
-          ssh server 'cd ~/apps/turbo-template; ./deploy'
+          ssh server 'cd ~/apps/turbo-template; ./deploy.sh'
