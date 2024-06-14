@@ -1,0 +1,9 @@
+services:
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./data/ssl/certbot:/etc/letsencrypt
+      - ./data/ssl/www:/var/www/certbot
+      - ./data/logs/certbot:/var/log/letsencrypt
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email bednarczykartur96@gmail.com -d test.isur.dev -d www.test.isur.dev --agree-tos

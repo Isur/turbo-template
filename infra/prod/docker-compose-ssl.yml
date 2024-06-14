@@ -1,0 +1,29 @@
+services:
+  app:
+    image: isur/turbo-template
+    container_name: app
+    env_file: ./.env.app
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16
+    container_name: postgresql
+    volumes:
+      - ./data/psql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file: ./.env.db
+
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./configs/nginx-ssl:/etc/nginx
+      - ./data/ssl/certbot:/etc/letsencrypt
+      - ./data/ssl/www:/var/www/certbot
+      - ./data/logs/nginx/:/var/log/nginx
+    depends_on:
+      - app

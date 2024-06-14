@@ -1,0 +1,43 @@
+name: Infra Prod
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "infra/prod/**"
+
+jobs:
+  job:
+    name: Infra Prod
+    runs-on: ubuntu-latest
+    environment: PROD
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/key.key
+          chmod 600 ~/.ssh/key.key
+          cat >> ~/.ssh/config <<END
+          HOST server
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/key.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Upload files
+        run: |
+          scp -r infra/prod/* server:~/apps/turbo-template
+
+      # - name: Restart app
+      #   run: |
+      #     ssh server 'cd ~/apps/turbo-template; ./deploy backend'
