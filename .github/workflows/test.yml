@@ -2,6 +2,9 @@ name: Testing
 
 on:
   push:
+    paths:
+      - "apps/**"
+      - "packages/**"
   pull_request:
   workflow_dispatch:
 
