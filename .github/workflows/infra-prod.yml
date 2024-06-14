@@ -37,9 +37,8 @@ jobs:
 
       - name: Upload files
         run: |
-          ssh server 'mkdir -p ~/apps/turbo-template'
           scp -r infra/prod/* server:~/apps/turbo-template
 
-      # - name: Restart app
-      #   run: |
-      #     ssh server 'cd ~/apps/turbo-template; ./deploy backend'
+      - name: Restart app
+        run: |
+          ssh server 'cd ~/apps/turbo-template; ./deploy'
