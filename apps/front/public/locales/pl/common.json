@@ -5,5 +5,6 @@
     "health": "Status",
     "todos": "Zadania",
     "logout": "Wyloguj"
-  }
+  },
+  "mainPage": "Strona główna"
 }
