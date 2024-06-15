@@ -1,0 +1,52 @@
+server {
+    client_max_body_size 0;
+    listen       80 default_server;
+    listen       [::]:80 default_server;
+
+    server_name  test.isur.dev www.test.isur.dev;
+
+    location ~ /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    if ($host = www.test.isur.dev) {
+        return 301 https://test.isur.dev$request_uri;
+    }
+
+    if ($host = test.isur.dev) {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    client_max_body_size 0;
+    listen       443 ssl default_server;
+    listen       [::]:443 ssl default_server;
+    http2 on;
+    root /var/www/html;
+    server_name  test.isur.dev www.test.isur.dev;
+
+    ssl_certificate /etc/letsencrypt/live/test.isur.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/test.isur.dev/privkey.pem;
+
+    if ($host = www.test.isur.dev) {
+        return 301 https://test.isur.dev$request_uri;
+    }
+
+    location / {
+      index index.html;
+      try_files $uri $uri/ /index.html;
+    }
+
+    location ~ \.css {
+        add_header  Content-Type    text/css;
+    }
+
+    location ~ \.js {
+        add_header  Content-Type    application/x-javascript;
+    }
+
+    location ~ /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+}
