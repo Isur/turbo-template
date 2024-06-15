@@ -1,53 +1,14 @@
-name: Deploy Prod
+name: Deploy Front Prod
 
 on:
   push:
     branches:
       - master
     paths:
-      - "apps/**"
-      - "packages/**"
-      - "configs/**"
-      - "dockerfile"
+      - "apps/front/**"
   workflow_dispatch:
 
 jobs:
-  api:
-    name: Deploy API
-    runs-on: ubuntu-latest
-    environment: PROD
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Build docker
-        run: docker build . -t isur/turbo-template
-
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/key.key
-          chmod 600 ~/.ssh/key.key
-          cat >> ~/.ssh/config <<END
-          HOST server
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/key.key
-            StrictHostKeyChecking no
-          END
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
-      - name: Upload docker
-        run: docker save isur/turbo-template | ssh -C server docker load
-
-      - name: Restart app
-        run: |
-          ssh server 'cd ~/apps/turbo-template; ./deploy.sh'
   front:
     name: Deploy FRONT
     runs-on: ubuntu-latest
