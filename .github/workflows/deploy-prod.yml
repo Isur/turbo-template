@@ -93,4 +93,4 @@ jobs:
 
       - name: Upload front
         run: |
-          rsync -avzr --delete ./apps/front/dist server:~/apps/turbo-template/data/html
+          rsync -avzr --delete ./apps/front/dist/ server:~/apps/turbo-template/data/html
