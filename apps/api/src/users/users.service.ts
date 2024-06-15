@@ -11,6 +11,7 @@ export class UsersService {
   private users: Array<User> = [
     { id: 1, name: "John", password: "pass1" },
     { id: 2, name: "Doe", password: "pass2" },
+    { id: 3, name: "Frank", password: "pass3" },
   ];
 
   getUsers(): Array<User> {
