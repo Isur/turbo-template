@@ -49,7 +49,7 @@ jobs:
         run: |
           ssh server 'cd ~/apps/turbo-template; ./deploy.sh'
   front:
-    name: Deploy API
+    name: Deploy FRONT
     runs-on: ubuntu-latest
     environment: PROD
     steps:
@@ -76,4 +76,4 @@ jobs:
 
       - name: Upload front
         run: |
-          scp -avzr --delete ./apps/front/dist server:~/apps/turbo-template/data/html
+          rsync -avzr --delete ./apps/front/dist server:~/apps/turbo-template/data/html
