@@ -49,6 +49,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Translation check
+        run: pnpm fjv
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format
+        run: pnpm format:check
+
+      - name: Typecheck
+        run: pnpm typecheck
+
       - name: Build Frontend
         run: pnpm build --filter=front
 

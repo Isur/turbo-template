@@ -2,6 +2,9 @@ name: Testing
 
 on:
   push:
+    branches:
+      - "*"
+      - "!master"
     paths:
       - "apps/**"
       - "packages/**"
