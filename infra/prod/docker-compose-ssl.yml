@@ -21,7 +21,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./configs/nginx-ssl:/etc/nginx
+      - ./configs/nginx-ssl/nginx.conf:/etc/nginx/nginx.conf
+      - ./configs/nginx-ssl/sites-enabled:/etc/nginx/sites-enabled
       - ./data/ssl/certbot:/etc/letsencrypt
       - ./data/ssl/www:/var/www/certbot
       - ./data/logs/nginx/:/var/log/nginx
