@@ -1,6 +1,4 @@
-import { join } from "path";
 import { Module } from "@nestjs/common";
-import { ServeStaticModule } from "@nestjs/serve-static";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DrizzleModule } from "@repo/drizzle-connector";
 import { HealthModule } from "./health/health.module";
@@ -16,10 +14,6 @@ import { MailModule } from "./mail/mail.module";
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "..", "..", "front", "dist"),
-      exclude: ["/api/(.*)"],
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, dbConfig],

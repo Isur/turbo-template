@@ -7,8 +7,8 @@ FROM base AS builder
 WORKDIR /app
 RUN pnpm add -g turbo@2
 COPY . .
-RUN turbo prune --scope=api --docker &&\
-  turbo prune --scope=front --docker
+RUN turbo prune --scope=api --docker
+
 
 FROM base AS installer
 WORKDIR /app
@@ -20,7 +20,7 @@ RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-RUN pnpm turbo run build --filter=api --filter=front &&\
+RUN pnpm turbo run build --filter=api &&\
   find . -name "node_modules" -type d -prune -exec rm -rf '{}' + &&\
   pnpm install --prod
 

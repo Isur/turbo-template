@@ -8,11 +8,12 @@ on:
       - "apps/**"
       - "packages/**"
       - "configs/**"
+      - "dockerfile"
   workflow_dispatch:
 
 jobs:
-  job:
-    name: Deploy Prod
+  api:
+    name: Deploy API
     runs-on: ubuntu-latest
     environment: PROD
     steps:
@@ -47,3 +48,32 @@ jobs:
       - name: Restart app
         run: |
           ssh server 'cd ~/apps/turbo-template; ./deploy.sh'
+  front:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    environment: PROD
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.2.0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Frontend
+        run: pnpm build --filter=front
+
+      - name: Upload front
+        run: |
+          scp -avzr --delete ./apps/front/dist server:~/apps/turbo-template/data/html
