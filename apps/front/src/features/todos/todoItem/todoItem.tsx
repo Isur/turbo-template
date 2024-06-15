@@ -15,15 +15,18 @@ type TodoProps = {
 };
 
 export const TodoItem: FC<TodoProps> = ({ id }) => {
+  const { t } = useTranslation("todos");
   const { todo } = useTodoItem(id);
 
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Todo: {todo.data.id}</CardTitle>
+          <CardTitle>
+            {t("todo")}: {todo.data.id}
+          </CardTitle>
           <CardDescription>
-            Completed: {todo.data.completed ? "yes" : "no"}
+            {t("completed")}: {todo.data.completed ? t("yes") : t("no")}
           </CardDescription>
         </CardHeader>
         <CardContent>
