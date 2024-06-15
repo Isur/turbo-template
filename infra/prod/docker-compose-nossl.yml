@@ -1,14 +1,14 @@
 services:
   app:
     image: isur/turbo-template
-    container_name: app
+    container_name: turbo-template-app
     env_file: ./.env.app
     depends_on:
       - database
 
   database:
     image: postgres:16
-    container_name: postgresql
+    container_name: turbo-template-postgresql
     env_file: ./.env.db
     volumes:
       - ./data/psql:/var/lib/postgresql/data
@@ -20,7 +20,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./configs/nginx-no-ssl:/etc/nginx
+      - ./configs/nginx-no-ssl/nginx.conf:/etc/nginx/nginx.conf
       - ./data/ssl/certbot:/etc/letsencrypt
       - ./data/ssl/www:/var/www/certbot
       - ./data/logs/nginx/:/var/log/nginx
