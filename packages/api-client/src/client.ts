@@ -37,13 +37,8 @@ export async function apiClient<TResponse>({
     if (!axios.isAxiosError(err)) {
       throw err;
     }
-    if (
-      err.response?.data.error &&
-      err.response?.data.code &&
-      err.response?.data.status
-    ) {
-      const { status, error, code } = err.response.data;
-      throw new ApiError(error, code, status);
+    if (err.response?.data.timestamp) {
+      throw new ApiError(err.response.data);
     }
 
     throw err;

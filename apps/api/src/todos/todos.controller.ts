@@ -1,6 +1,6 @@
-import { Controller, Get, HttpException, Param } from "@nestjs/common";
-import { HttpStatusCode } from "axios";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { TodosService } from "./todos.service";
+import { CreateTodoDto } from "./dto/createTodo.dto";
 
 @Controller("todos")
 export class TodosController {
@@ -14,18 +14,11 @@ export class TodosController {
   @Get(":id")
   async findOne(@Param("id") id: string) {
     const todo = await this.todosService.findOne(+id);
-
-    if (!todo) {
-      throw new HttpException(
-        {
-          status: HttpStatusCode.NotFound,
-          error: "Not Found",
-          code: "not_found",
-        },
-        HttpStatusCode.NotFound
-      );
-    }
-
     return todo;
+  }
+
+  @Post()
+  async createTodo(@Body() newTodo: CreateTodoDto) {
+    return await this.todosService.createTodo(newTodo);
   }
 }

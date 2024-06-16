@@ -25,3 +25,20 @@ export async function getTodo(id: number): Promise<GetTodoResponse> {
 
   return response;
 }
+
+type CreateTodoResponse = Todo;
+type CreateTodoRequest = {
+  title: string;
+};
+
+export async function createTodo(
+  body: CreateTodoRequest
+): Promise<CreateTodoResponse> {
+  const response = await apiClient<CreateTodoResponse>({
+    url: "/todos",
+    method: "POST",
+    data: body,
+  });
+
+  return response;
+}
