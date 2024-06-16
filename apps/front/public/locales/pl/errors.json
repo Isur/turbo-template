@@ -1,6 +1,6 @@
 {
   "todos": {
     "error": "Błąd podczas wczytywania zadania: ",
-    "not_found": "Zadanie nie zostało znalezione!"
+    "TODO_NOT_FOUND": "Zadanie nie zostało znalezione!"
   }
 }

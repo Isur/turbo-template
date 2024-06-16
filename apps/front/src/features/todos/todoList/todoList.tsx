@@ -1,6 +1,5 @@
 import { Outlet, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { todoApi } from "@repo/api-client";
 import { useTodoList } from "./useTodoList";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -8,13 +7,7 @@ import { Input } from "@/components/ui/input";
 
 export const TodoList = () => {
   const [newState, setNewState] = useState("");
-  const { todos } = useTodoList();
-
-  const addNew = async () => {
-    await todoApi.createTodo({ title: newState });
-    setNewState("");
-    todos.refetch();
-  };
+  const { todos, createTodo } = useTodoList();
 
   return (
     <div className="flex flex-row">
@@ -25,9 +18,10 @@ export const TodoList = () => {
           value={newState}
           placeholder="add..."
         />
-        <Button variant="default" onClick={addNew}>
+        <Button variant="default" onClick={() => createTodo.mutate(newState)}>
           Add
         </Button>
+        {createTodo.isError && <div>Error: {createTodo.error.message}</div>}
         <ScrollArea className="h-96 h-max-[300px]">
           <ul>
             {todos.data.map((d) => (
