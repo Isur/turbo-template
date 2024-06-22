@@ -9,6 +9,8 @@ process.env.NODE_ENV === "production" &&
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
     ],
+    environment: "production",
+    tunnel: "/api/sentry/tunnel",
     tracesSampleRate: 1.0,
     tracePropagationTargets: [/^\/api/],
     replaysSessionSampleRate: 0.1,

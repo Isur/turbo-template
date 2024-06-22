@@ -11,12 +11,14 @@ import { SeedModule } from "./seed/seed.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { MailModule } from "./mail/mail.module";
+import { SentryModule } from "./sentry/sentry.module";
+import sentryConfig from "./config/sentry.config";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, dbConfig],
+      load: [appConfig, dbConfig, sentryConfig],
       cache: true,
       expandVariables: true,
     }),
@@ -45,6 +47,7 @@ import { MailModule } from "./mail/mail.module";
     AuthModule,
     UsersModule,
     MailModule,
+    SentryModule,
   ],
   controllers: [],
   providers: [],
