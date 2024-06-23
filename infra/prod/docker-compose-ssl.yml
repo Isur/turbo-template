@@ -2,6 +2,7 @@ services:
   app:
     image: isur/turbo-template
     container_name: app
+    restart: unless-stopped
     env_file: ./.env.app
     depends_on:
       - database
@@ -10,6 +11,7 @@ services:
   database:
     image: postgres:16
     container_name: postgresql
+    restart: unless-stopped
     volumes:
       - ./data/psql:/var/lib/postgresql/data
     ports:
@@ -21,6 +23,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    restart: unless-stopped
     volumes:
       - ./configs/nginx-ssl/nginx.conf:/etc/nginx/nginx.conf
       - ./data/ssl/certbot:/etc/letsencrypt
@@ -33,6 +36,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    restart: unless-stopped
     ports:
       - "9095:9090"
     volumes:
@@ -41,9 +45,26 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana
+    restart: unless-stopped
     ports:
       - "3003:3000"
     volumes:
       - ./data/grafana-data:/var/lib/grafana
       - ./data/grafana_provisioning/provisioning:/etc/grafana/provisioning
     user: "0"
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    expose:
+      - 9100
