@@ -36,7 +36,7 @@ services:
     ports:
       - "9095:9090"
     volumes:
-      - ./infra/prod/configs/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana
@@ -45,4 +45,4 @@ services:
       - "3003:3000"
     volumes:
       - ./docker_data/grafana-data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./docker_data/grafana_provisioning/provisioning:/etc/grafana/provisioning
