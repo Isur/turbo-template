@@ -46,3 +46,4 @@ services:
     volumes:
       - ./data/grafana-data:/var/lib/grafana
       - ./data/grafana_provisioning/provisioning:/etc/grafana/provisioning
+  user: "0"
