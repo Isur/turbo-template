@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: turbo-template-app
+    container_name: turbo-template-app-dev
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -10,10 +10,11 @@ services:
       - "3001:3000"
     depends_on:
       - db
+      - prometheus
 
   db:
     image: postgres:16
-    container_name: turbo-template-db
+    container_name: turbo-template-db-dev
     volumes:
       - ./docker_data/psql:/var/lib/postgresql/data
     ports:
@@ -23,3 +24,20 @@ services:
       - POSTGRES_PASSWORD=local
       - POSTGRES_DB=turbo-template
       - TZ="Europe/Warsaw"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9095:9090"
+    volumes:
+      - ./infra/prod/configs/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./docker_data/grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning

@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DrizzleModule } from "@repo/drizzle-connector";
+import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
 import appConfig from "./config/app.config";
@@ -12,7 +13,9 @@ import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { MailModule } from "./mail/mail.module";
 import { SentryModule } from "./sentry/sentry.module";
+import { MetricsModule } from "./metrics/metrics.module";
 import sentryConfig from "./config/sentry.config";
+import { MetricsController } from "./metrics/metrics.controller";
 
 @Module({
   imports: [
@@ -48,6 +51,10 @@ import sentryConfig from "./config/sentry.config";
     UsersModule,
     MailModule,
     SentryModule,
+    MetricsModule,
+    PrometheusModule.register({
+      controller: MetricsController,
+    }),
   ],
   controllers: [],
   providers: [],
