@@ -44,5 +44,5 @@ services:
     ports:
       - "3003:3000"
     volumes:
-      - ./docker_data/grafana-data:/var/lib/grafana
-      - ./docker_data/grafana_provisioning/provisioning:/etc/grafana/provisioning
+      - ./data/grafana-data:/var/lib/grafana
+      - ./data/grafana_provisioning/provisioning:/etc/grafana/provisioning
