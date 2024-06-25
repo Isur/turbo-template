@@ -42,17 +42,6 @@ services:
     volumes:
       - ./configs/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
 
-  # grafana:
-  #   image: grafana/grafana
-  #   container_name: grafana
-  #   restart: unless-stopped
-  #   ports:
-  #     - "3003:3000"
-  #   volumes:
-  #     - ./data/grafana-data:/var/lib/grafana
-  #     - ./data/grafana_provisioning/provisioning:/etc/grafana/provisioning
-  #   user: "0"
-
   node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
@@ -68,12 +57,6 @@ services:
       - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     expose:
       - 9100
-
-  # loki:
-  #   image: grafana/loki:latest
-  #   ports:
-  #     - "3100:3100"
-  #   command: -config.file=/etc/loki/local-config.yaml
 
   promtail:
     image: grafana/promtail:latest
