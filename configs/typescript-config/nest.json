@@ -5,6 +5,7 @@
     "declaration": true,
     "target": "ES2021",
     "sourceMap": true,
-    "incremental": true
+    "incremental": true,
+    "esModuleInterop": true
   }
 }

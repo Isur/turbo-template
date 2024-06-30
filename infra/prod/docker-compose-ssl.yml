@@ -61,7 +61,5 @@ services:
   promtail:
     image: grafana/promtail:latest
     volumes:
-      - /var/log:/var/log
-      - ./data/logs/nginx/:/var/log/nginx
       - ./configs/grafana/promtail.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml

@@ -9,6 +9,7 @@ export interface AppConfig {
   mailer: Mailers;
   sendgridApiKey: string;
   sendingMail: string;
+  env_name: string;
 }
 
 export default registerAs(
@@ -23,5 +24,6 @@ export default registerAs(
     mailer: (process.env.MAILER as Mailers) || "console",
     sendgridApiKey: process.env.SENDGRID_API_KEY || "",
     sendingMail: process.env.SENDING_MAIL || "",
+    env_name: process.env.ENV_NAME || "development",
   })
 );
