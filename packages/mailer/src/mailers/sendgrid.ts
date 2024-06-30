@@ -1,5 +1,5 @@
 import { Logger } from "@nestjs/common";
-import * as sgMail from "@sendgrid/mail";
+import sgMail from "@sendgrid/mail";
 import { MailOptions, MailerInterface } from "src/interfaces/mailer.interface";
 
 export type SendgridOptions = {
