@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DrizzleModule } from "@repo/drizzle-connector";
 import { PrometheusModule } from "@willsoto/nestjs-prometheus";
@@ -16,6 +16,7 @@ import { SentryModule } from "./sentry/sentry.module";
 import { MetricsModule } from "./metrics/metrics.module";
 import sentryConfig from "./config/sentry.config";
 import { MetricsController } from "./metrics/metrics.controller";
+import { LoggingMiddleware } from "./middlewares/logging.middleware";
 
 @Module({
   imports: [
@@ -59,4 +60,8 @@ import { MetricsController } from "./metrics/metrics.controller";
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes("*");
+  }
+}
