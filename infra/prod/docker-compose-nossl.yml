@@ -5,6 +5,8 @@ services:
     env_file: ./.env.app
     depends_on:
       - database
+    volumes:
+      - ./data/logs/api:/apps/app/api/logs
 
   database:
     image: postgres:16

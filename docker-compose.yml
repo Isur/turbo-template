@@ -10,7 +10,6 @@ services:
       - "3001:3000"
     depends_on:
       - db
-      - prometheus
 
   db:
     image: postgres:16
@@ -24,20 +23,3 @@ services:
       - POSTGRES_PASSWORD=local
       - POSTGRES_DB=turbo-template
       - TZ="Europe/Warsaw"
-
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-      - "9095:9090"
-    volumes:
-      - ./infra/prod/configs/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    ports:
-      - "3003:3000"
-    volumes:
-      - ./docker_data/grafana-data:/var/lib/grafana
-      - ./docker_data/grafana/provisioning:/etc/grafana/provisioning

@@ -4,12 +4,11 @@ import { DrizzleModule } from "@repo/drizzle-connector";
 import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 import { WinstonModule } from "nest-winston";
 import winston from "winston";
-import LokiTransport from "winston-loki";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
-import appConfig, { AppConfig } from "./config/app.config";
+import appConfig from "./config/app.config";
 import dbConfig from "./config/db.config";
-import { CONFIGKEYS, DbConfig, LokiConfig } from "./config";
+import { CONFIGKEYS, DbConfig } from "./config";
 import { DB_TOKEN, schema } from "./database";
 import { SeedModule } from "./seed/seed.module";
 import { AuthModule } from "./auth/auth.module";
@@ -20,13 +19,12 @@ import { MetricsModule } from "./metrics/metrics.module";
 import sentryConfig from "./config/sentry.config";
 import { MetricsController } from "./metrics/metrics.controller";
 import { LoggingMiddleware } from "./middlewares/logging.middleware";
-import lokiConfig from "./config/loki.config";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, dbConfig, sentryConfig, lokiConfig],
+      load: [appConfig, dbConfig, sentryConfig],
       cache: true,
       expandVariables: true,
     }),
@@ -61,31 +59,17 @@ import lokiConfig from "./config/loki.config";
       controller: MetricsController,
     }),
     WinstonModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        const { lokiUrl, lokiPass, lokiJobName } =
-          configService.get<LokiConfig>(CONFIGKEYS.LOKI);
-        const { env_name } = configService.get<AppConfig>(CONFIGKEYS.APP);
-        const transports: Array<any> = [
+      inject: [],
+      useFactory: async () => {
+        const transports = [
           new winston.transports.Console({
             format: winston.format.combine(winston.format.json()),
           }),
+          new winston.transports.File({
+            filename: "logs/logs.log",
+            level: "info",
+          }),
         ];
-
-        if (lokiUrl && lokiPass) {
-          transports.push(
-            new LokiTransport({
-              host: lokiUrl,
-              basicAuth: lokiPass,
-              labels: {
-                job: lokiJobName,
-                envname: env_name,
-              },
-              json: true,
-              format: winston.format.json(),
-            })
-          );
-        }
         return {
           transports,
         };

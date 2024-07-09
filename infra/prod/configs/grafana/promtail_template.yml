@@ -11,3 +11,10 @@ clients:
   - url: "<URL>"
 
 scrape_configs:
+  - job_name: template-app
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: template-app
+          __path__: ~/apps/turbo-template/data/logs/api/*.log
