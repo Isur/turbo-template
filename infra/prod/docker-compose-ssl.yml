@@ -8,7 +8,7 @@ services:
       - database
       - prometheus
     volumes:
-      - ./data/logs/api:/apps/app/api/logs
+      - ./data/logs/api:/app/apps/api/logs
 
   database:
     image: postgres:16
