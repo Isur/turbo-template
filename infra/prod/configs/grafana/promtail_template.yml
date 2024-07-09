@@ -17,4 +17,4 @@ scrape_configs:
           - localhost
         labels:
           job: template-app
-          __path__: ~/apps/turbo-template/data/logs/api/*.log
+          __path__: /app/apps/api/logs/*.log

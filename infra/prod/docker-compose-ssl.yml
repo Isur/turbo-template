@@ -64,4 +64,5 @@ services:
     image: grafana/promtail:latest
     volumes:
       - ./configs/grafana/promtail.yml:/etc/promtail/config.yml
+      - ./data/logs/api:/app/apps/api/logs
     command: -config.file=/etc/promtail/config.yml
