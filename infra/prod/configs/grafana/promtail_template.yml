@@ -16,5 +16,6 @@ scrape_configs:
       - targets:
           - localhost
         labels:
+          envname: test.isur.dev
           job: template-app
           __path__: /app/apps/api/logs/*.log
