@@ -1,7 +1,11 @@
 import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DrizzleModule } from "@repo/drizzle-connector";
-import { PrometheusModule } from "@willsoto/nestjs-prometheus";
+import {
+  PrometheusModule,
+  makeCounterProvider,
+  makeHistogramProvider,
+} from "@willsoto/nestjs-prometheus";
 import { WinstonModule } from "nest-winston";
 import winston from "winston";
 import { HealthModule } from "./health/health.module";
@@ -56,6 +60,7 @@ import { LoggingMiddleware } from "./middlewares/logging.middleware";
     SentryModule,
     MetricsModule,
     PrometheusModule.register({
+      global: true,
       controller: MetricsController,
     }),
     WinstonModule.forRootAsync({
@@ -77,7 +82,18 @@ import { LoggingMiddleware } from "./middlewares/logging.middleware";
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    makeCounterProvider({
+      name: "http_counter",
+      help: "Http counter",
+      labelNames: ["method", "originalUrl", "statusCode"],
+    }),
+    makeHistogramProvider({
+      name: "http_histogram",
+      help: "How much time per request",
+      labelNames: ["method", "originalUrl", "statusCode"],
+    }),
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
