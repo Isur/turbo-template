@@ -62,7 +62,13 @@ jobs:
         run: pnpm typecheck
 
       - name: Build Frontend
-        run: pnpm build --filter=front
+        run: |
+          echo "SENTRY_RELEASE=$GITHUB_SHA" >> apps/front/.env
+          echo "SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN" >> apps/front/.env
+          echo "VITE_SENTRY_DSN=$VITE_SENTRY_DSN" >> apps/front/.env
+          echo "SENTRY_ORG=$SENTRY_ORG" >> apps/front/.env
+          echo "SENTRY_PROJECT=$SENTRY_PROJECT" >> apps/front/.env
+          pnpm build --filter=front
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           VITE_SENTRY_DSN: "https://1b02df46d2e9e707dc2950d7a24bab29@o4507460359553024.ingest.de.sentry.io/4507460364861520"
