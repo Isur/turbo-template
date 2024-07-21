@@ -35,7 +35,6 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -64,6 +63,11 @@ jobs:
 
       - name: Build Frontend
         run: pnpm build --filter=front
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          VITE_SENTRY_DSN: "https://1b02df46d2e9e707dc2950d7a24bab29@o4507460359553024.ingest.de.sentry.io/4507460364861520"
+          SENTRY_ORG: "isur"
+          SENTRY_PROJECT: "javascript-react"
 
       - name: Upload front
         run: |
