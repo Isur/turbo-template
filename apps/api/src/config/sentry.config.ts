@@ -4,6 +4,7 @@ import { CONFIGKEYS } from "./configKeys";
 export interface SentryConfig {
   host: string;
   projects: Array<string>;
+  dsn: string;
 }
 
 export default registerAs(
@@ -11,5 +12,6 @@ export default registerAs(
   (): SentryConfig => ({
     host: process.env.SENTRY_HOST || "",
     projects: process.env.SENTRY_PROJECTS.split(",") || [],
+    dsn: process.env.SENTRY_DSN || "",
   })
 );
