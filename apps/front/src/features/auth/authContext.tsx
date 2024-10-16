@@ -14,9 +14,12 @@ export interface AuthContextProps {
   profile: { id: number; name: string } | null;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(
-  undefined
-);
+export const AuthContext = createContext<AuthContextProps>({
+  login: async () => {},
+  logout: async () => {},
+  getProfile: async () => ({ id: 0, name: "" }),
+  profile: { id: 0, name: "" },
+});
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

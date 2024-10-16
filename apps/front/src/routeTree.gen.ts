@@ -153,20 +153,148 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  LayoutRoute: LayoutRoute.addChildren({ LayoutIndexRoute }),
-  ProtectedRoute: ProtectedRoute.addChildren({
-    ProtectedHealthRoute,
-    ProtectedTodosRoute: ProtectedTodosRoute.addChildren({
-      ProtectedTodosIdRoute,
-    }),
-  }),
-  AuthRoute: AuthRoute.addChildren({
-    AuthForgetPasswordRoute,
-    AuthLoginRoute,
-    AuthRegisterRoute,
-  }),
-})
+interface LayoutRouteChildren {
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
+interface ProtectedTodosRouteChildren {
+  ProtectedTodosIdRoute: typeof ProtectedTodosIdRoute
+}
+
+const ProtectedTodosRouteChildren: ProtectedTodosRouteChildren = {
+  ProtectedTodosIdRoute: ProtectedTodosIdRoute,
+}
+
+const ProtectedTodosRouteWithChildren = ProtectedTodosRoute._addFileChildren(
+  ProtectedTodosRouteChildren,
+)
+
+interface ProtectedRouteChildren {
+  ProtectedHealthRoute: typeof ProtectedHealthRoute
+  ProtectedTodosRoute: typeof ProtectedTodosRouteWithChildren
+}
+
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedHealthRoute: ProtectedHealthRoute,
+  ProtectedTodosRoute: ProtectedTodosRouteWithChildren,
+}
+
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthForgetPasswordRoute: typeof AuthForgetPasswordRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthForgetPasswordRoute: AuthForgetPasswordRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+export interface FileRoutesByFullPath {
+  '': typeof ProtectedRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/health': typeof ProtectedHealthRoute
+  '/todos': typeof ProtectedTodosRouteWithChildren
+  '/auth/forget-password': typeof AuthForgetPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/': typeof LayoutIndexRoute
+  '/todos/$id': typeof ProtectedTodosIdRoute
+}
+
+export interface FileRoutesByTo {
+  '': typeof ProtectedRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/health': typeof ProtectedHealthRoute
+  '/todos': typeof ProtectedTodosRouteWithChildren
+  '/auth/forget-password': typeof AuthForgetPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/': typeof LayoutIndexRoute
+  '/todos/$id': typeof ProtectedTodosIdRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_protected': typeof ProtectedRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/_protected/health': typeof ProtectedHealthRoute
+  '/_protected/todos': typeof ProtectedTodosRouteWithChildren
+  '/auth/forget-password': typeof AuthForgetPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/_layout/': typeof LayoutIndexRoute
+  '/_protected/todos/$id': typeof ProtectedTodosIdRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | ''
+    | '/auth'
+    | '/health'
+    | '/todos'
+    | '/auth/forget-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/'
+    | '/todos/$id'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | ''
+    | '/auth'
+    | '/health'
+    | '/todos'
+    | '/auth/forget-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/'
+    | '/todos/$id'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_protected'
+    | '/auth'
+    | '/_protected/health'
+    | '/_protected/todos'
+    | '/auth/forget-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/_layout/'
+    | '/_protected/todos/$id'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  LayoutRoute: typeof LayoutRouteWithChildren
+  ProtectedRoute: typeof ProtectedRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  LayoutRoute: LayoutRouteWithChildren,
+  ProtectedRoute: ProtectedRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
