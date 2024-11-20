@@ -34,7 +34,6 @@
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.4.2",
     "@nestjs/terminus": "^10.2.3",
-    "@repo/drizzle-connector": "workspace:*",
     "@repo/hello-world-package": "workspace:*",
     "@repo/mailer": "workspace:*",
     "@sentry/nestjs": "^8.39.0",
