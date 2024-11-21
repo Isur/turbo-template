@@ -1,13 +1,14 @@
 import { Logger } from "@nestjs/common";
 import sgMail from "@sendgrid/mail";
-import { MailOptions, MailerInterface } from "src/interfaces/mailer.interface";
+import { MailOptions, Mailer } from "../mailer.interface";
 
 export type SendgridOptions = {
   apiKey: string;
 };
 
-export class Sendgrid implements MailerInterface {
-  private readonly logger = new Logger(Sendgrid.name);
+export class SendgridMailer implements Mailer {
+  private readonly logger = new Logger(SendgridMailer.name);
+
   constructor(opts: SendgridOptions) {
     sgMail.setApiKey(opts.apiKey);
   }

@@ -1,14 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { MAILER_PROVIDER, MailOptions, MailerInterface } from "@repo/mailer";
 import { ConfigService } from "@nestjs/config";
 import { AppConfig, CONFIGKEYS } from "src/config";
 import { DB, DB_TOKEN, schema } from "src/database";
-import { accountConfirm } from "./mails";
+import { Mailer, MailOptions } from "./mailer.interface";
+import * as mails from "./mails";
 
 @Injectable()
-export class MailService {
+export class MailerService {
   constructor(
-    @Inject(MAILER_PROVIDER) private readonly mailer: MailerInterface,
+    @Inject("MAILER") private readonly mailer: Mailer,
     private readonly configService: ConfigService,
     @Inject(DB_TOKEN) private readonly db: DB
   ) {}
@@ -19,6 +19,7 @@ export class MailService {
   ): Promise<void> {
     const appConfig = this.configService.get<AppConfig>(CONFIGKEYS.APP);
     const from = `MyApp <${appConfig.sendingMail}>`;
+
     await this.mailer.sendMail({
       from,
       to: options.to,
@@ -40,7 +41,7 @@ export class MailService {
   }
 
   async accountConfirm(activateUrl: string, userEmail: string): Promise<void> {
-    const html = accountConfirm({ activate_url: activateUrl });
+    const html = mails.accountConfirm({ activate_url: activateUrl });
     const text = `Activate your account by visiting ${activateUrl}`;
 
     await this.sendMail(

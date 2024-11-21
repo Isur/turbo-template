@@ -14,7 +14,7 @@ import dbConfig from "./config/db.config";
 import { SeedModule } from "./seed/seed.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
-import { MailModule } from "./mail/mail.module";
+import { MailerModule } from "./mailer/mailer.module";
 import { SentryModule } from "./sentry/sentry.module";
 import { MetricsModule } from "./metrics/metrics.module";
 import sentryConfig from "./config/sentry.config";
@@ -36,7 +36,7 @@ import { DbModule } from "./database/db.module";
     SeedModule,
     AuthModule,
     UsersModule,
-    MailModule,
+    MailerModule,
     SentryModule,
     MetricsModule,
     PrometheusModule.register({

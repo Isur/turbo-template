@@ -8,6 +8,6 @@ export type MailOptions = {
   bcc?: Array<string>;
 };
 
-export interface MailerInterface {
+export interface Mailer {
   sendMail(options: MailOptions): Promise<void>;
 }
