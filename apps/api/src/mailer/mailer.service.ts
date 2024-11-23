@@ -1,15 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { AppConfig, CONFIGKEYS } from "src/config";
 import { DB, DB_TOKEN, schema } from "src/database";
 import { Mailer, MailOptions } from "./mailer.interface";
 import * as mails from "./mails";
+import { AppConfigService } from "src/config/appConfig.service";
 
 @Injectable()
 export class MailerService {
   constructor(
     @Inject("MAILER") private readonly mailer: Mailer,
-    private readonly configService: ConfigService,
+    private readonly configService: AppConfigService,
     @Inject(DB_TOKEN) private readonly db: DB
   ) {}
 
@@ -17,7 +16,7 @@ export class MailerService {
     options: Omit<MailOptions, "from">,
     data: unknown
   ): Promise<void> {
-    const appConfig = this.configService.get<AppConfig>(CONFIGKEYS.APP);
+    const appConfig = this.configService.get("app");
     const from = `MyApp <${appConfig.sendingMail}>`;
 
     await this.mailer.sendMail({

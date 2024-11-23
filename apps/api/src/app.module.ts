@@ -1,5 +1,4 @@
 import { MiddlewareConsumer, Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import {
   PrometheusModule,
   makeCounterProvider,
@@ -9,27 +8,20 @@ import { WinstonModule } from "nest-winston";
 import winston from "winston";
 import { HealthModule } from "./health/health.module";
 import { TodosModule } from "./todos/todos.module";
-import appConfig from "./config/app.config";
-import dbConfig from "./config/db.config";
 import { SeedModule } from "./seed/seed.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { MailerModule } from "./mailer/mailer.module";
 import { SentryModule } from "./sentry/sentry.module";
 import { MetricsModule } from "./metrics/metrics.module";
-import sentryConfig from "./config/sentry.config";
 import { MetricsController } from "./metrics/metrics.controller";
 import { LoggingMiddleware } from "./middlewares/logging.middleware";
 import { DbModule } from "./database/db.module";
+import { AppConfigModule } from "./config/appConfig.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [appConfig, dbConfig, sentryConfig],
-      cache: true,
-      expandVariables: true,
-    }),
+    AppConfigModule,
     HealthModule,
     TodosModule,
     DbModule,

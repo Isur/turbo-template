@@ -1,9 +1,8 @@
 import { Global, Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { CONFIGKEYS, DbConfig } from "src/config";
 import { DB_TOKEN } from "./database";
 import { DbService } from "./db.service";
 import * as schema from "./schema";
+import { AppConfigService } from "src/config/appConfig.service";
 
 @Global()
 @Module({
@@ -11,12 +10,12 @@ import * as schema from "./schema";
     DbService,
     {
       provide: DB_TOKEN,
-      inject: [ConfigService, DbService],
+      inject: [AppConfigService, DbService],
       useFactory: async (
-        configService: ConfigService,
+        configService: AppConfigService,
         dbService: DbService
       ) => {
-        const dbConfig = configService.get<DbConfig>(CONFIGKEYS.DB);
+        const dbConfig = configService.get("database");
 
         return await dbService.createConnection({
           dbConfig,

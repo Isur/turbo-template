@@ -1,20 +1,7 @@
-import { registerAs } from "@nestjs/config";
 import { Mailers } from "src/mailer/options";
-import { CONFIGKEYS } from "./configKeys";
 
-export interface AppConfig {
-  port: number;
-  jwtSecret: string;
-  jwtExpiresIn: number;
-  mailer: Mailers;
-  sendgridApiKey: string;
-  sendingMail: string;
-  env_name: string;
-}
-
-export default registerAs(
-  CONFIGKEYS.APP,
-  (): AppConfig => ({
+export function loadAppConfig() {
+  return {
     port: parseInt(process.env.PORT, 10) || 3000,
     jwtSecret:
       process.env.JWT_SECRET ||
@@ -25,5 +12,6 @@ export default registerAs(
     sendgridApiKey: process.env.SENDGRID_API_KEY || "",
     sendingMail: process.env.SENDING_MAIL || "",
     env_name: process.env.ENV_NAME || "development",
-  })
-);
+  };
+}
+export type AppConfig = ReturnType<typeof loadAppConfig>;

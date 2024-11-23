@@ -1,14 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { CONFIGKEYS, SentryConfig } from "src/config";
+import { AppConfigService } from "src/config/appConfig.service";
 
 @Injectable()
 export class SentryService {
   private readonly sentryHost: string;
   private readonly sentryProjectIds: string[];
 
-  constructor(configService: ConfigService) {
-    const sentryConfig = configService.get<SentryConfig>(CONFIGKEYS.SENTRY);
+  constructor(configService: AppConfigService) {
+    const sentryConfig = configService.get("sentry");
     this.sentryHost = sentryConfig.host;
     this.sentryProjectIds = sentryConfig.projects;
   }

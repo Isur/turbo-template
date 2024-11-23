@@ -1,9 +1,8 @@
 import { Global, Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { AppConfig, CONFIGKEYS } from "src/config";
 import { MailerFactory } from "./mailer.factory";
 import { MailerService } from "./mailer.service";
 import { MailerConfig } from "./options";
+import { AppConfigService } from "src/config/appConfig.service";
 
 @Global()
 @Module({
@@ -11,12 +10,12 @@ import { MailerConfig } from "./options";
     MailerFactory,
     {
       provide: "MAILER",
-      inject: [ConfigService, MailerFactory],
+      inject: [AppConfigService, MailerFactory],
       useFactory: (
-        configService: ConfigService,
+        configService: AppConfigService,
         mailerFactory: MailerFactory
       ) => {
-        const appConfig = configService.get<AppConfig>(CONFIGKEYS.APP);
+        const appConfig = configService.get("app");
         let mailConfig: MailerConfig = {
           type: "Console",
           options: null,
