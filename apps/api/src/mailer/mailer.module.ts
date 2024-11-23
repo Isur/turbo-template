@@ -1,8 +1,8 @@
 import { Global, Module } from "@nestjs/common";
+import { AppConfigService } from "src/config/appConfig.service";
 import { MailerFactory } from "./mailer.factory";
 import { MailerService } from "./mailer.service";
 import { MailerConfig } from "./options";
-import { AppConfigService } from "src/config/appConfig.service";
 
 @Global()
 @Module({

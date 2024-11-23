@@ -7,11 +7,11 @@ import {
   Res,
   Delete,
 } from "@nestjs/common";
+import { AppConfigService } from "src/config/appConfig.service";
 import { LocalAuthGuard } from "./local/local-auth.guard";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt/jwt-auth.guard";
 import { Public } from "./auth.public";
-import { AppConfigService } from "src/config/appConfig.service";
 
 @Controller("auth")
 export class AuthController {

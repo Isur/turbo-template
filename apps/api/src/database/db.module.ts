@@ -1,8 +1,8 @@
 import { Global, Module } from "@nestjs/common";
+import { AppConfigService } from "src/config/appConfig.service";
 import { DB_TOKEN } from "./database";
 import { DbService } from "./db.service";
 import * as schema from "./schema";
-import { AppConfigService } from "src/config/appConfig.service";
 
 @Global()
 @Module({

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { DB, DB_TOKEN, schema } from "src/database";
+import { AppConfigService } from "src/config/appConfig.service";
 import { Mailer, MailOptions } from "./mailer.interface";
 import * as mails from "./mails";
-import { AppConfigService } from "src/config/appConfig.service";
 
 @Injectable()
 export class MailerService {
