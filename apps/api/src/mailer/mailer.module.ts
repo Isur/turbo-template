@@ -15,7 +15,7 @@ import { MailerConfig } from "./options";
         configService: AppConfigService,
         mailerFactory: MailerFactory
       ) => {
-        const appConfig = configService.get("app");
+        const appConfig = configService.get("mailer");
         let mailConfig: MailerConfig = {
           type: "Console",
           options: null,

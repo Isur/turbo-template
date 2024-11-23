@@ -24,7 +24,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post("login")
   async login(@Request() req, @Res({ passthrough: true }) res) {
-    const { jwtExpiresIn } = this.configService.get("app");
+    const { jwtExpiresIn } = this.configService.get("auth");
     const { access_token } = await this.authService.login(req.user);
 
     res.cookie("user_token", access_token, {

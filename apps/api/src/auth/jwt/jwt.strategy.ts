@@ -8,7 +8,7 @@ import { JwtPayload } from "./jwt.payload";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(configService: AppConfigService) {
-    const config = configService.get("app");
+    const config = configService.get("auth");
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         JwtStrategy.extractJWTFromCookie,

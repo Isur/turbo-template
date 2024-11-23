@@ -16,7 +16,7 @@ export class MailerService {
     options: Omit<MailOptions, "from">,
     data: unknown
   ): Promise<void> {
-    const appConfig = this.configService.get("app");
+    const appConfig = this.configService.get("mailer");
     const from = `MyApp <${appConfig.sendingMail}>`;
 
     await this.mailer.sendMail({

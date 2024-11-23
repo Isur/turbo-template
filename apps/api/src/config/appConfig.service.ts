@@ -2,11 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { SentryConfig, loadSentryConfig } from "./configs/sentry";
 import { AppConfig, loadAppConfig } from "./configs/app";
 import { DatabaseConfig, loadDatabaseConfig } from "./configs/db";
+import { AuthConfig, loadAuthConfig } from "./configs/auth";
+import { loadMailerConfig, MailerConfig } from "./configs/mailer";
 
 type Config = {
   sentry: SentryConfig;
   app: AppConfig;
   database: DatabaseConfig;
+  mailer: MailerConfig;
+  auth: AuthConfig;
 };
 
 @Injectable()
@@ -20,6 +24,8 @@ export class AppConfigService {
       sentry: loadSentryConfig(),
       app: loadAppConfig(),
       database: loadDatabaseConfig(),
+      mailer: loadMailerConfig(),
+      auth: loadAuthConfig(),
     };
   }
 
