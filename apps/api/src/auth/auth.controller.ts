@@ -7,8 +7,7 @@ import {
   Res,
   Delete,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { AppConfig, CONFIGKEYS } from "src/config";
+import { AppConfigService } from "src/config/appConfig.service";
 import { LocalAuthGuard } from "./local/local-auth.guard";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt/jwt-auth.guard";
@@ -18,14 +17,14 @@ import { Public } from "./auth.public";
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly configService: ConfigService
+    private readonly configService: AppConfigService
   ) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post("login")
   async login(@Request() req, @Res({ passthrough: true }) res) {
-    const { jwtExpiresIn } = this.configService.get<AppConfig>(CONFIGKEYS.APP);
+    const { jwtExpiresIn } = this.configService.get("auth");
     const { access_token } = await this.authService.login(req.user);
 
     res.cookie("user_token", access_token, {

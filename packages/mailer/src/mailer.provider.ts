@@ -1,1 +1,0 @@
-export const MAILER_PROVIDER = "MAILER_PROVIDER";

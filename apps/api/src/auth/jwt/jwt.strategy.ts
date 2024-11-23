@@ -1,15 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Request } from "express";
-import { AppConfig, CONFIGKEYS } from "../../config";
+import { AppConfigService } from "src/config/appConfig.service";
 import { JwtPayload } from "./jwt.payload";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(configService: ConfigService) {
-    const config = configService.get<AppConfig>(CONFIGKEYS.APP);
+  constructor(configService: AppConfigService) {
+    const config = configService.get("auth");
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         JwtStrategy.extractJWTFromCookie,
