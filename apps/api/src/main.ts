@@ -7,22 +7,22 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import cookieParser from "cookie-parser";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 import * as Sentry from "@sentry/nestjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { AppModule } from "./app.module";
 import { CustomHttpExceptionFilter } from "./core/exceptions/httpException.filter";
 import { AppConfigService } from "./core/config/appConfig.service";
+import { createLogger } from "./core/logger";
 
 async function bootstrap() {
   const logger = new Logger("bootstrap");
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: createLogger(),
+  });
 
   const configService = app.get(AppConfigService);
   const config = configService.get("app");
   const sentryConfig = configService.get("sentry");
-
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   const { httpAdapter } = app.get(HttpAdapterHost);
 

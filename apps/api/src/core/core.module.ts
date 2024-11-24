@@ -4,8 +4,6 @@ import {
   makeHistogramProvider,
   PrometheusModule,
 } from "@willsoto/nestjs-prometheus";
-import { WinstonModule } from "nest-winston";
-import winston from "winston";
 import { AppConfigModule } from "./config/appConfig.module";
 import { HealthModule } from "./health/health.module";
 import { DbModule } from "./database/db.module";
@@ -26,23 +24,6 @@ import { LoggingMiddleware } from "./middlewares/logging.middleware";
     PrometheusModule.register({
       global: true,
       controller: MetricsController,
-    }),
-    WinstonModule.forRootAsync({
-      inject: [],
-      useFactory: async () => {
-        const transports = [
-          new winston.transports.Console({
-            format: winston.format.combine(winston.format.json()),
-          }),
-          new winston.transports.File({
-            filename: "logs/logs.log",
-            level: "info",
-          }),
-        ];
-        return {
-          transports,
-        };
-      },
     }),
   ],
   controllers: [],
