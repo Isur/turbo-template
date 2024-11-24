@@ -1,4 +1,5 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
+import { eq } from "drizzle-orm";
 import { DB, DB_TOKEN, schema } from "..";
 
 @Injectable()
@@ -8,16 +9,40 @@ export class SeedService {
   constructor(@Inject(DB_TOKEN) private readonly db: DB) {}
 
   async seed() {
-    const init = await this.db.select().from(schema.init).limit(1);
+    await this.db
+      .insert(schema.seed)
+      .values([
+        {
+          name: "todo",
+          done: false,
+        },
+      ])
+      .onConflictDoNothing();
 
-    const seedDone = init.length > 0 && init[0].seed;
+    const seeds = await this.db.select().from(schema.seed);
+    const allDone = seeds.every((seed) => seed.done === true);
 
-    if (seedDone) {
+    if (allDone) {
       this.logger.log("Seeding database not necessary...");
       return;
     }
 
+    const record: Record<string, boolean> = {};
+    seeds.forEach((seed) => {
+      record[seed.name] = seed.done;
+    });
+
     this.logger.log("Seeding database...");
+
+    if (!record["todo"]) {
+      await this.seedTodos();
+    }
+
+    this.logger.log("Database seeded!");
+  }
+
+  private async seedTodos() {
+    this.logger.log("Seeding Todos...");
 
     await this.db.insert(schema.todos).values([
       { title: "Create NestJS App", completed: true },
@@ -25,8 +50,9 @@ export class SeedService {
       { title: "Create Todos Module", completed: false },
     ]);
 
-    await this.db.insert(schema.init).values([{ seed: true }]);
-
-    this.logger.log("Database seeded!");
+    await this.db
+      .update(schema.seed)
+      .set({ done: true })
+      .where(eq(schema.seed.name, "todo"));
   }
 }

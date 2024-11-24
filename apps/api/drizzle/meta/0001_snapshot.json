@@ -1,7 +1,5 @@
 {
-  "id": "be8e7b0c-f7f2-4393-8757-c2bcdceee6ee",
-  "prevId": "cdbc373e-382c-4ee1-a1a7-5cba6a21f897",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.emails": {
@@ -118,8 +116,11 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "be8e7b0c-f7f2-4393-8757-c2bcdceee6ee",
+  "prevId": "cdbc373e-382c-4ee1-a1a7-5cba6a21f897",
+  "sequences": {}
 }

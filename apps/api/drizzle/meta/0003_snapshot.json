@@ -1,4 +1,6 @@
 {
+  "id": "22750f6a-b7ce-4cbb-80c3-37bd0cb81dfc",
+  "prevId": "76e54fbf-5391-40b1-a20a-b8d0370dcc8e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -65,30 +67,31 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
-    "public.init": {
-      "name": "init",
+    "public.seed": {
+      "name": "seed",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
         "done": {
           "name": "done",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
-          "default": false
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "public.todos": {
       "name": "todos",
@@ -116,17 +119,17 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
   "enums": {},
   "schemas": {},
+  "sequences": {},
+  "views": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "id": "76e54fbf-5391-40b1-a20a-b8d0370dcc8e",
-  "prevId": "be8e7b0c-f7f2-4393-8757-c2bcdceee6ee",
-  "sequences": {}
+    "tables": {}
+  }
 }

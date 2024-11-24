@@ -22,6 +22,13 @@
       "when": 1718127500084,
       "tag": "0002_adorable_midnight",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732457278304,
+      "tag": "0003_chief_jack_flag",
+      "breakpoints": true
     }
   ]
 }

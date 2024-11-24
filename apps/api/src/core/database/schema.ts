@@ -8,9 +8,9 @@ import {
   json,
 } from "drizzle-orm/pg-core";
 
-export const init = pgTable("init", {
-  id: serial("id").primaryKey(),
-  seed: boolean("done").default(false),
+export const seed = pgTable("seed", {
+  done: boolean("done").notNull(),
+  name: text("name").primaryKey(),
 });
 
 export const todos = pgTable("todos", {

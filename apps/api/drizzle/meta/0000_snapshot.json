@@ -1,7 +1,5 @@
 {
-  "id": "cdbc373e-382c-4ee1-a1a7-5cba6a21f897",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.init": {
@@ -59,8 +57,11 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "cdbc373e-382c-4ee1-a1a7-5cba6a21f897",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "sequences": {}
 }
