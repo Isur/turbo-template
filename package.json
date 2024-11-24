@@ -14,7 +14,8 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck",
     "check:fix": "pnpm format && pnpm lint:fix",
     "start": "pnpm --filter=api start",
-    "prod": "pnpm build && pnpm start"
+    "prod": "pnpm build && pnpm start",
+    "test": "turbo test"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
