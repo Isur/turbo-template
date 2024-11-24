@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, Logger, Post } from "@nestjs/common";
-import { Public } from "src/auth/auth.public";
+import { Public } from "src/modules/auth/auth.public";
 import { SentryService } from "./sentry.service";
 
 @Controller("sentry")

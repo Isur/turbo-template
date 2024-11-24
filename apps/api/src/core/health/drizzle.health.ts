@@ -5,7 +5,7 @@ import {
   HealthCheckError,
 } from "@nestjs/terminus";
 import { sql } from "drizzle-orm";
-import { DB, DB_TOKEN } from "src/database";
+import { DB, DB_TOKEN } from "src/core/database";
 
 @Injectable()
 export class DrizzleHealthIndicator extends HealthIndicator {

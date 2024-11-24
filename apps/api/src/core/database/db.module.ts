@@ -1,11 +1,14 @@
 import { Global, Module } from "@nestjs/common";
-import { AppConfigService } from "src/config/appConfig.service";
+import { AppConfigService } from "src/core/config/appConfig.service";
 import { DB_TOKEN } from "./database";
 import { DbService } from "./db.service";
 import * as schema from "./schema";
+import { SeedModule } from "./seed/seed.module";
+import { SeedService } from "./seed/seed.service";
 
 @Global()
 @Module({
+  imports: [SeedModule],
   providers: [
     DbService,
     {
@@ -23,6 +26,7 @@ import * as schema from "./schema";
         });
       },
     },
+    SeedService,
   ],
   exports: [DB_TOKEN],
 })

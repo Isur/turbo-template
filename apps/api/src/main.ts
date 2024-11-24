@@ -11,8 +11,8 @@ import { WINSTON_MODULE_NEST_PROVIDER } from "nest-winston";
 import * as Sentry from "@sentry/nestjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { AppModule } from "./app.module";
-import { CustomHttpExceptionFilter } from "./exceptions/httpException.filter";
-import { AppConfigService } from "./config/appConfig.service";
+import { CustomHttpExceptionFilter } from "./core/exceptions/httpException.filter";
+import { AppConfigService } from "./core/config/appConfig.service";
 
 async function bootstrap() {
   const logger = new Logger("bootstrap");

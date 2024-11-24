@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { DB, DB_TOKEN, schema } from "../database";
+import { DB, DB_TOKEN, schema } from "..";
 
 @Injectable()
 export class SeedService {

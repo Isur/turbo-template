@@ -1,4 +1,4 @@
-import { CustomHttpException } from "src/exceptions/httpException";
+import { CustomHttpException } from "src/core/exceptions/httpException";
 
 export class TodoNotFoundException extends CustomHttpException {
   constructor() {

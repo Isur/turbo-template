@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
-import { DB, DB_TOKEN } from "../database";
-import { todos } from "../database/schema";
+import { DB, DB_TOKEN } from "../../core/database";
+import { todos } from "../../core/database/schema";
 import { Todo } from "./entities/todo.entity";
 import { CreateTodoDto } from "./dto/createTodo.dto";
 import { TodoNotFoundException } from "./todos.errors";
