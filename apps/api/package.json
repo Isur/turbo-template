@@ -34,6 +34,7 @@
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.4.2",
     "@nestjs/terminus": "^10.2.3",
+    "@repo/api-client": "workspace:*",
     "@repo/hello-world-package": "workspace:*",
     "@sendgrid/mail": "^8.1.4",
     "@sentry/nestjs": "^8.40.0",

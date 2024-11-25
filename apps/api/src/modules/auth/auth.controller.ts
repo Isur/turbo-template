@@ -8,6 +8,7 @@ import {
   Delete,
 } from "@nestjs/common";
 import { AppConfigService } from "src/core/config/appConfig.service";
+import { AuthApiType } from "@repo/api-client";
 import { LocalAuthGuard } from "./local/local-auth.guard";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt/jwt-auth.guard";
@@ -23,7 +24,10 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  async login(@Request() req, @Res({ passthrough: true }) res) {
+  async login(
+    @Request() req,
+    @Res({ passthrough: true }) res
+  ): Promise<AuthApiType.LoginResponse> {
     const { jwtExpiresIn } = this.configService.get("auth");
     const { access_token } = await this.authService.login(req.user);
 
@@ -35,14 +39,16 @@ export class AuthController {
   }
 
   @Delete("logout")
-  async logout(@Res({ passthrough: true }) res) {
+  async logout(
+    @Res({ passthrough: true }) res
+  ): Promise<AuthApiType.LogoutResponse> {
     res.clearCookie("user_token");
     return { message: "Logout success" };
   }
 
   @UseGuards(JwtAuthGuard)
   @Get("profile")
-  async profile(@Request() req) {
+  async profile(@Request() req): Promise<AuthApiType.ProfileResponse> {
     return req.user;
   }
 }

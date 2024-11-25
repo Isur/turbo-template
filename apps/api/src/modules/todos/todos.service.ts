@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 import { DB, DB_TOKEN } from "../../core/database";
-import { todos } from "../../core/database/schema";
+import * as schema from "../../core/database/schema";
 import { Todo } from "./entities/todo.entity";
 import { CreateTodoDto } from "./dto/createTodo.dto";
 import { TodoNotFoundException } from "./todos.errors";
@@ -10,16 +10,16 @@ import { TodoNotFoundException } from "./todos.errors";
 export class TodosService {
   constructor(@Inject(DB_TOKEN) private readonly db: DB) {}
 
-  async findAll(): Promise<unknown> {
-    const todos = await this.db.query.todos.findMany();
+  async findAll(): Promise<Array<Todo>> {
+    const todos = await this.db.select().from(schema.todos);
     return todos;
   }
 
   async findOne(id: number): Promise<Todo> {
     const todo = await this.db
       .select()
-      .from(todos)
-      .where(eq(todos.id, id))
+      .from(schema.todos)
+      .where(eq(schema.todos.id, id))
       .limit(1);
 
     if (todo.length === 0) {
@@ -31,7 +31,7 @@ export class TodosService {
 
   async createTodo(createTodo: CreateTodoDto): Promise<Todo> {
     const newTodo = await this.db
-      .insert(todos)
+      .insert(schema.todos)
       .values({ title: createTodo.title, completed: false })
       .returning();
 

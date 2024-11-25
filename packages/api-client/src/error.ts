@@ -6,6 +6,7 @@ type ErrorApiType = {
   path: string;
   method: string;
 };
+
 export class ApiError extends Error implements ErrorApiType {
   status: number;
   code: string;

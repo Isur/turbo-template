@@ -1,4 +1,4 @@
-import { authApi } from "@repo/api-client";
+import { AuthApi } from "@repo/api-client";
 import {
   PropsWithChildren,
   useContext,
@@ -41,14 +41,14 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   const login = async (login: string, password: string) => {
-    await authApi.login({ login, password });
-    const profile = await authApi.getProfile();
+    await AuthApi.login({ login, password });
+    const profile = await AuthApi.getProfile();
     setProfile(profile);
   };
 
   const logout = async () => {
     setProfile(null);
-    await authApi.logout();
+    await AuthApi.logout();
   };
 
   const getProfile = async () => {
@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       return profile;
     } else {
       try {
-        const prof = await authApi.getProfile();
+        const prof = await AuthApi.getProfile();
         setProfile(prof);
         return prof;
       } catch {
