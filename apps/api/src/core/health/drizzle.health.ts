@@ -17,7 +17,7 @@ export class DrizzleHealthIndicator extends HealthIndicator {
   async isHealthy(key: string): Promise<HealthIndicatorResult> {
     try {
       const dbResult = await this.db.execute(sql`SELECT 1 as test`);
-      if (dbResult.rows[0].test != 1) {
+      if (dbResult.rows[0]!.test != 1) {
         throw new HealthCheckError("Drizzle failed", {
           select: "select 1 not returned 1",
         });

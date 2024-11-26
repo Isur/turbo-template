@@ -18,7 +18,7 @@ import { MailerConfig } from "./options";
         const appConfig = configService.get("mailer");
         let mailConfig: MailerConfig = {
           type: "Console",
-          options: null,
+          options: undefined,
         };
 
         if (appConfig.mailer === "Sendgrid") {

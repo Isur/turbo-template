@@ -1,6 +1,8 @@
 export function loadDatabaseConfig() {
+  const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 5432) : 5432;
+
   return {
-    port: parseInt(process.env.DB_PORT, 10) || 5432,
+    port,
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "local",
     password: process.env.DB_PASSWORD || "local",

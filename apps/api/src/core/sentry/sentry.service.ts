@@ -15,6 +15,9 @@ export class SentryService {
   async tunnel(body: string) {
     const envelope = body;
     const piece = envelope.split("\n")[0];
+    if (!piece) {
+      throw new Error("Piece not exists, invalid envelope!");
+    }
     const header = JSON.parse(piece);
     const dsn = new URL(header["dsn"]);
     const project_id = dsn.pathname?.replace("/", "");

@@ -22,7 +22,7 @@ export class TodosService {
       .where(eq(schema.todos.id, id))
       .limit(1);
 
-    if (todo.length === 0) {
+    if (!todo[0]) {
       throw new TodoNotFoundException();
     }
 
@@ -35,6 +35,8 @@ export class TodosService {
       .values({ title: createTodo.title, completed: false })
       .returning();
 
-    return newTodo[0];
+    if (newTodo[0]) return newTodo[0];
+
+    throw new Error("Failed creating todo");
   }
 }

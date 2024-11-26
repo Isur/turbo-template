@@ -15,6 +15,10 @@ export class MailerFactory {
       mailer = new SendgridMailer(options);
     } else if (type === "Console") {
       mailer = new ConsoleMailer();
+    } else {
+      throw new Error(
+        "Wrong type of mailer! It has to be one of: Sendgrid, Console"
+      );
     }
 
     this.logger.log(`Using {type} mailer`);

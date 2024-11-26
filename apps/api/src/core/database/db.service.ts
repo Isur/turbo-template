@@ -13,7 +13,7 @@ type Cfg = {
     database: string;
     migrationsDirectory: string;
   };
-  config: DrizzleConfig<any> | undefined;
+  config: DrizzleConfig<any>;
 };
 
 @Injectable()

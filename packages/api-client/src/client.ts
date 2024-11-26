@@ -10,7 +10,7 @@ api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     if (
-      error.response.status === 401 &&
+      error.response?.status === 401 &&
       !window.location.pathname.includes("/login")
     ) {
       window.location.href = "/login";
