@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+# File upload
+/bucket
+
 # Logs
 logs
 *.log

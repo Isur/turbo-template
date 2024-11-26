@@ -29,6 +29,13 @@
       "when": 1732457278304,
       "tag": "0003_chief_jack_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1732651243934,
+      "tag": "0004_nasty_hobgoblin",
+      "breakpoints": true
     }
   ]
 }

@@ -7,7 +7,9 @@ import {
   MemoryHealthIndicator,
 } from "@nestjs/terminus";
 import { DrizzleHealthIndicator } from "./drizzle.health";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("monitoring")
 @Controller("health")
 export class HealthController {
   constructor(
