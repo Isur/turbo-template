@@ -6,8 +6,8 @@ import {
   HttpHealthIndicator,
   MemoryHealthIndicator,
 } from "@nestjs/terminus";
-import { DrizzleHealthIndicator } from "./drizzle.health";
 import { ApiTags } from "@nestjs/swagger";
+import { DrizzleHealthIndicator } from "./drizzle.health";
 
 @ApiTags("monitoring")
 @Controller("health")

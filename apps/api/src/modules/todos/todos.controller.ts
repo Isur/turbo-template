@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { TodoApiType } from "@repo/api-client";
+import { ApiTags } from "@nestjs/swagger";
 import { TodosService } from "./todos.service";
 import { CreateTodoDto } from "./dto/createTodo.dto";
-import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags("todos")
 @Controller("todos")

@@ -6,8 +6,8 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
-import { FilesService } from "./files.service";
 import { ApiTags } from "@nestjs/swagger";
+import { FilesService } from "./files.service";
 
 @ApiTags("files")
 @Controller("files")

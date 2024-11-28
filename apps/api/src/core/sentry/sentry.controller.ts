@@ -1,7 +1,7 @@
 import { Body, Controller, HttpException, Logger, Post } from "@nestjs/common";
 import { Public } from "src/modules/auth/auth.public";
-import { SentryService } from "./sentry.service";
 import { ApiTags } from "@nestjs/swagger";
+import { SentryService } from "./sentry.service";
 
 @ApiTags("monitoring")
 @Controller("sentry")

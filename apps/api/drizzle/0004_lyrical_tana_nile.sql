@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS "files" (
 	"originalname" text NOT NULL,
 	"mimetype" text NOT NULL,
 	"path" text NOT NULL,
-	"size" integer NOT NULL
+	"size" bigint NOT NULL,
+	"upload_date" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "emails" ALTER COLUMN "from" SET NOT NULL;--> statement-breakpoint

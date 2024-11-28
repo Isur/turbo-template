@@ -18,6 +18,7 @@ import { Route as LayoutIndexImport } from './routes/_layout.index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordImport } from './routes/auth/forget-password'
+import { Route as ProtectedUploaderImport } from './routes/_protected/uploader'
 import { Route as ProtectedTodosImport } from './routes/_protected/todos'
 import { Route as ProtectedHealthImport } from './routes/_protected/health'
 import { Route as ProtectedTodosIdImport } from './routes/_protected/todos.$id'
@@ -62,6 +63,12 @@ const AuthForgetPasswordRoute = AuthForgetPasswordImport.update({
   id: '/forget-password',
   path: '/forget-password',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const ProtectedUploaderRoute = ProtectedUploaderImport.update({
+  id: '/uploader',
+  path: '/uploader',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 
 const ProtectedTodosRoute = ProtectedTodosImport.update({
@@ -119,6 +126,13 @@ declare module '@tanstack/react-router' {
       path: '/todos'
       fullPath: '/todos'
       preLoaderRoute: typeof ProtectedTodosImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/uploader': {
+      id: '/_protected/uploader'
+      path: '/uploader'
+      fullPath: '/uploader'
+      preLoaderRoute: typeof ProtectedUploaderImport
       parentRoute: typeof ProtectedImport
     }
     '/auth/forget-password': {
@@ -187,11 +201,13 @@ const ProtectedTodosRouteWithChildren = ProtectedTodosRoute._addFileChildren(
 interface ProtectedRouteChildren {
   ProtectedHealthRoute: typeof ProtectedHealthRoute
   ProtectedTodosRoute: typeof ProtectedTodosRouteWithChildren
+  ProtectedUploaderRoute: typeof ProtectedUploaderRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedHealthRoute: ProtectedHealthRoute,
   ProtectedTodosRoute: ProtectedTodosRouteWithChildren,
+  ProtectedUploaderRoute: ProtectedUploaderRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -217,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteWithChildren
   '/health': typeof ProtectedHealthRoute
   '/todos': typeof ProtectedTodosRouteWithChildren
+  '/uploader': typeof ProtectedUploaderRoute
   '/auth/forget-password': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -229,6 +246,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/health': typeof ProtectedHealthRoute
   '/todos': typeof ProtectedTodosRouteWithChildren
+  '/uploader': typeof ProtectedUploaderRoute
   '/auth/forget-password': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -243,6 +261,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/_protected/health': typeof ProtectedHealthRoute
   '/_protected/todos': typeof ProtectedTodosRouteWithChildren
+  '/_protected/uploader': typeof ProtectedUploaderRoute
   '/auth/forget-password': typeof AuthForgetPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -257,6 +276,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/health'
     | '/todos'
+    | '/uploader'
     | '/auth/forget-password'
     | '/auth/login'
     | '/auth/register'
@@ -268,6 +288,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/health'
     | '/todos'
+    | '/uploader'
     | '/auth/forget-password'
     | '/auth/login'
     | '/auth/register'
@@ -280,6 +301,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_protected/health'
     | '/_protected/todos'
+    | '/_protected/uploader'
     | '/auth/forget-password'
     | '/auth/login'
     | '/auth/register'
@@ -325,7 +347,8 @@ export const routeTree = rootRoute
       "filePath": "_protected.tsx",
       "children": [
         "/_protected/health",
-        "/_protected/todos"
+        "/_protected/todos",
+        "/_protected/uploader"
       ]
     },
     "/auth": {
@@ -346,6 +369,10 @@ export const routeTree = rootRoute
       "children": [
         "/_protected/todos/$id"
       ]
+    },
+    "/_protected/uploader": {
+      "filePath": "_protected/uploader.tsx",
+      "parent": "/_protected"
     },
     "/auth/forget-password": {
       "filePath": "auth/forget-password.tsx",

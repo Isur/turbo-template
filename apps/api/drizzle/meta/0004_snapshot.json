@@ -1,5 +1,5 @@
 {
-  "id": "3e585e3b-7438-4a93-9bbc-270f76a2e0c1",
+  "id": "9d31407b-53bc-42ff-ae5b-375d9c9d1615",
   "prevId": "22750f6a-b7ce-4cbb-80c3-37bd0cb81dfc",
   "version": "7",
   "dialect": "postgresql",
@@ -103,9 +103,16 @@
         },
         "size": {
           "name": "size",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true
+        },
+        "upload_date": {
+          "name": "upload_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},

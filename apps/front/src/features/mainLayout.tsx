@@ -20,7 +20,7 @@ export const MainLayout = () => {
   };
 
   return (
-    <div>
+    <div className="h-full w-full flex flex-col overflow-y-auto gap-3">
       <nav className="flex items-center p-4 gap-4 outline">
         <ModeToggle />
         <LangToggle />
@@ -32,6 +32,9 @@ export const MainLayout = () => {
         </Link>
         <Link to="/todos">
           <Button variant="outline"> {t("mainLayout.todos")} </Button>
+        </Link>
+        <Link to="/uploader">
+          <Button variant="outline"> {t("mainLayout.uploader")} </Button>
         </Link>
         <Button variant="outline" onClick={logout}>
           {t("mainLayout.logout")}

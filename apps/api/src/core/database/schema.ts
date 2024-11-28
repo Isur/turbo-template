@@ -6,7 +6,7 @@ import {
   uuid,
   timestamp,
   json,
-  integer,
+  bigint,
 } from "drizzle-orm/pg-core";
 
 export const seed = pgTable("seed", {
@@ -37,5 +37,6 @@ export const files = pgTable("files", {
   originalName: text("originalname").notNull(),
   mimetype: text("mimetype").notNull(),
   path: text("path").notNull(),
-  size: integer("size").notNull(),
+  size: bigint("size", { mode: "number" }).notNull(),
+  date: timestamp("upload_date").notNull().defaultNow(),
 });

@@ -4,7 +4,8 @@
     "home": "Główna",
     "health": "Status",
     "todos": "Zadania",
-    "logout": "Wyloguj"
+    "logout": "Wyloguj",
+    "uploader": "Przesyłanie"
   },
   "mainPage": "Strona główna"
 }

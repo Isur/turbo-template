@@ -4,7 +4,8 @@
     "home": "Home",
     "health": "Status",
     "todos": "Todos",
-    "logout": "Logout"
+    "logout": "Logout",
+    "uploader": "Uploader"
   },
   "mainPage": "Home Page"
 }
