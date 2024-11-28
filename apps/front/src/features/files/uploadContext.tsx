@@ -1,92 +1,98 @@
 import { ApiTypes } from "@repo/api-client";
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  FC,
-  useState,
-} from "react";
+import { Context, createContext, PropsWithChildren, useState } from "react";
 
-type UploadContext = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Kek<T = any> = T;
+
+type UploadContext<T = Kek> = {
   state: ApiTypes.FileUploadState;
   progress: number;
   files: Array<File>;
   onFilesChange: (acceptedFiles: Array<File>) => void;
-  onUpdateState: (progress: number, state: ApiTypes.FileUploadState) => void;
   startUploading: () => void;
   removeFile: (fileId: number) => void;
-  result: unknown;
+  result: T | undefined;
 };
 
-export const UploadContext = createContext<UploadContext | undefined>(
-  undefined
-);
+export type UploadContextType<T = Kek> = Context<UploadContext<T>>;
 
-export const useUpload = () => {
-  const context = useContext(UploadContext);
+export type FunctionUpload<T = Kek> = (
+  data: { files: Array<File> },
+  onProgress: (progress: number, state: ApiTypes.FileUploadState) => void
+) => Promise<T>;
 
-  if (!context) {
-    throw new Error("useContext must be used within an uploadProvider");
-  }
-
-  return context;
+type UploadProvider<T> = {
+  funcUpload: FunctionUpload<T>;
 };
 
-type UploadProvider = {
-  funcUpload: (
-    data: { files: Array<File> },
-    onProgress: (progress: number, state: ApiTypes.FileUploadState) => void
-  ) => Promise<Array<File>>;
-};
+export type UploadProviderFactoryType<T = Kek> = ReturnType<
+  typeof UploadProviderFactory<T>
+>;
 
-export const UploadProvider: FC<PropsWithChildren<UploadProvider>> = ({
-  children,
-  funcUpload,
-}) => {
-  const [progress, setProgress] = useState<number>(0);
-  const [uploadState, setUploadState] =
-    useState<ApiTypes.FileUploadState>("wait");
-  const [files, setFiles] = useState<Array<File>>([]);
-  const [result, setResult] = useState<unknown>(null);
+export function UploadProviderFactory<T>() {
+  const Context = createContext<UploadContext<T>>({
+    startUploading: () => null,
+    onFilesChange: () => null,
+    state: "wait",
+    progress: 0,
+    removeFile: () => null,
+    files: [],
+    result: undefined,
+  });
 
-  const startUploading = async () => {
-    setUploadState("uploading");
-    const r = await funcUpload({ files }, onUpdateState);
-    setResult(r);
-    setUploadState("done");
-    setFiles([]);
+  const Provider = ({
+    children,
+    funcUpload,
+  }: PropsWithChildren<UploadProvider<T>>) => {
+    const [progress, setProgress] = useState<number>(0);
+    const [uploadState, setUploadState] =
+      useState<ApiTypes.FileUploadState>("wait");
+    const [files, setFiles] = useState<Array<File>>([]);
+    const [result, setResult] = useState<T>();
+
+    const startUploading = async () => {
+      setUploadState("uploading");
+      const r = await funcUpload({ files }, onUpdateState);
+      setResult(r);
+      setUploadState("done");
+      setFiles([]);
+    };
+
+    const onUpdateState = (
+      progress: number,
+      state: ApiTypes.FileUploadState
+    ) => {
+      setProgress(progress);
+      setUploadState(state);
+    };
+
+    const onFilesChange = (acceptedFiles: Array<File>) => {
+      setUploadState("wait");
+      setResult(undefined);
+      setFiles([...files, ...acceptedFiles]);
+    };
+
+    const removeFile = (fileId: number) => {
+      const newFiles = files.filter((_, index) => index !== fileId);
+      setFiles(newFiles);
+    };
+
+    return (
+      <Context.Provider
+        value={{
+          progress,
+          state: uploadState,
+          files,
+          onFilesChange,
+          startUploading,
+          removeFile,
+          result,
+        }}
+      >
+        {children}
+      </Context.Provider>
+    );
   };
 
-  const onUpdateState = (progress: number, state: ApiTypes.FileUploadState) => {
-    setProgress(progress);
-    setUploadState(state);
-  };
-
-  const onFilesChange = (acceptedFiles: Array<File>) => {
-    setUploadState("wait");
-    setResult(null);
-    setFiles([...files, ...acceptedFiles]);
-  };
-
-  const removeFile = (fileId: number) => {
-    const newFiles = files.filter((_, index) => index !== fileId);
-    setFiles(newFiles);
-  };
-
-  return (
-    <UploadContext.Provider
-      value={{
-        progress,
-        state: uploadState,
-        files,
-        onFilesChange,
-        onUpdateState,
-        startUploading,
-        removeFile,
-        result,
-      }}
-    >
-      {children}
-    </UploadContext.Provider>
-  );
-};
+  return { Context, Provider };
+}

@@ -1,1 +1,3 @@
-export { Uploader } from "./uploader";
+export { UploaderExample } from "./uploaderExample";
+export { FileUploader } from "./uploader/fileUploader";
+export { UploadProviderFactory } from "./uploadContext";

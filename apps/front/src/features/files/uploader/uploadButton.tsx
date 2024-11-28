@@ -1,10 +1,12 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useUpload } from "./uploadContext";
+import { UploadContextType } from "../uploadContext";
 import { Button } from "@/components/ui/button";
 
-export const UploadButton: FC = () => {
-  const { state, files, startUploading } = useUpload();
+export const UploadButton: FC<{ context: UploadContextType }> = ({
+  context,
+}) => {
+  const { state, files, startUploading } = useContext(context);
   const { t } = useTranslation("upload");
 
   if (!files.length) return;

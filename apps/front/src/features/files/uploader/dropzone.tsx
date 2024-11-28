@@ -1,11 +1,11 @@
 import { UploadIcon } from "lucide-react";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { useTranslation } from "react-i18next";
-import { useUpload } from "./uploadContext";
+import { UploadContextType } from "../uploadContext";
 
-export const Dropzone: FC = () => {
-  const { onFilesChange, state } = useUpload();
+export const Dropzone: FC<{ context: UploadContextType }> = ({ context }) => {
+  const { onFilesChange, state } = useContext(context);
   const { t } = useTranslation("upload");
 
   const { getInputProps, getRootProps } = useDropzone({
