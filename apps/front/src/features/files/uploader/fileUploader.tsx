@@ -1,10 +1,10 @@
 import { FC } from "react";
+import { FunctionUpload, UploadProviderFactoryType } from "../uploadContext";
 import { UploadButton } from "./uploadButton";
 import { UploadProgress } from "./progress";
 import { UploadResult } from "./uploadResult";
 import { Dropzone } from "./dropzone";
 import { Files } from "./files";
-import { FunctionUpload, UploadProviderFactoryType } from "../uploadContext";
 
 export const FileUploader: FC<{
   ctx: UploadProviderFactoryType;
