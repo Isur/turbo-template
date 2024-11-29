@@ -8,6 +8,8 @@ export function loadAuthConfig() {
       process.env.JWT_SECRET ||
       "secretForJwtThat-no-one-knows-hehe-do-you-like-bananas?",
     jwtExpiresIn,
+    login: process.env.LOGIN || "John",
+    password: process.env.PASSWORD || "pass1",
   };
 }
 export type AuthConfig = ReturnType<typeof loadAuthConfig>;

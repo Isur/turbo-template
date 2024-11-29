@@ -117,6 +117,8 @@ describe("App Config", () => {
       expect(auth).toEqual({
         jwtSecret: "secretForJwtThat-no-one-knows-hehe-do-you-like-bananas?",
         jwtExpiresIn: 1000 * 60 * 60 * 24,
+        login: "John",
+        password: "pass1",
       });
     });
   });

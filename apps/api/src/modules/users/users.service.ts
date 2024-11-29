@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { AppConfigService } from "src/core/config/appConfig.service";
 
 export type User = {
   id: number;
@@ -8,11 +9,16 @@ export type User = {
 
 @Injectable()
 export class UsersService {
-  private users: Array<User> = [
-    { id: 1, name: "John", password: "pass1" },
-    { id: 2, name: "Doe", password: "pass2" },
-    { id: 3, name: "Frank", password: "pass3" },
-  ];
+  private users: Array<User> = [];
+
+  constructor(configService: AppConfigService) {
+    const { login, password } = configService.get("auth");
+    this.users.push({
+      id: 1,
+      name: login,
+      password,
+    });
+  }
 
   getUsers(): Array<User> {
     return this.users;
