@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    volumes:
+      - ./docker_data/api/logs:/app/apps/api/logs
+      - ./docker_data/api/bucket:/app/apps/api/bucket
     env_file:
       - .env.docker
     ports:

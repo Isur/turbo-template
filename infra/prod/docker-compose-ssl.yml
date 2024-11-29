@@ -9,7 +9,7 @@ services:
       - prometheus
     volumes:
       - ./data/logs/api:/app/apps/api/logs
-      - ./data/bucket/api:/apps/app/api/bucket
+      - ./data/bucket/api:/app/apps/api/bucket
 
   database:
     image: postgres:16

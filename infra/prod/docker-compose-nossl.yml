@@ -6,8 +6,8 @@ services:
     depends_on:
       - database
     volumes:
-      - ./data/logs/api:/apps/app/api/logs
-      - ./data/bucket/api:/apps/app/api/bucket
+      - ./data/logs/api:/app/apps/api/logs
+      - ./data/bucket/api:/app/apps/api/bucket
 
   database:
     image: postgres:16
