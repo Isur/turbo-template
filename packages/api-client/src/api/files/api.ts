@@ -1,6 +1,10 @@
 import { FileUploadState } from "../../types";
-import { fileApiClient } from "../../client";
+import { apiClient, fileApiClient } from "../../client";
 import {
+  GetFileListResponse,
+  GetFileResponse,
+  PatchFileRequest,
+  PatchFileResponse,
   UploadFileRequest,
   UploadFileResponse,
   UploadMultipleFilesRequest,
@@ -41,4 +45,51 @@ export async function uploadFiles(
   });
 
   return response;
+}
+
+export async function getFileList(): Promise<GetFileListResponse> {
+  const response = await apiClient<GetFileListResponse>({
+    method: "GET",
+    url: "/files",
+  });
+
+  return response;
+}
+
+export async function getFile(id: string): Promise<GetFileResponse> {
+  const response = await apiClient<GetFileResponse>({
+    method: "GET",
+    url: "/files/" + id,
+  });
+
+  return response;
+}
+
+export async function patchFile(
+  id: string,
+  body: PatchFileRequest
+): Promise<PatchFileResponse> {
+  const response = await apiClient<PatchFileResponse>({
+    method: "PATCH",
+    url: "/files/" + id,
+    data: body,
+  });
+
+  return response;
+}
+
+export async function downloadFile(id: string) {
+  const url = `/api/files/${id}/download`;
+  const link = document.createElement("a");
+  link.href = url;
+  document.body.appendChild(link);
+  link.click();
+  link.parentNode?.removeChild(link);
+}
+
+export async function deleteFile(id: string) {
+  await apiClient({
+    method: "DELETE",
+    url: "/files/" + id,
+  });
 }

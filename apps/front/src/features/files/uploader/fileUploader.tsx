@@ -9,9 +9,10 @@ import { Files } from "./files";
 export const FileUploader: FC<{
   ctx: UploadProviderFactoryType;
   func: FunctionUpload;
-}> = ({ ctx, func }) => {
+  queryKey: Array<string>;
+}> = ({ ctx, func, queryKey }) => {
   return (
-    <ctx.Provider funcUpload={func}>
+    <ctx.Provider funcUpload={func} queryKey={queryKey}>
       <div className="w-[800px]">
         <Dropzone context={ctx.Context} />
         <UploadButton context={ctx.Context} />

@@ -1,4 +1,5 @@
 import { ApiTypes } from "@repo/api-client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Context, createContext, PropsWithChildren, useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,6 +24,7 @@ export type FunctionUpload<T = Kek> = (
 
 type UploadProvider<T> = {
   funcUpload: FunctionUpload<T>;
+  queryKey?: Array<string>;
 };
 
 export type UploadProviderFactoryType<T = Kek> = ReturnType<
@@ -43,16 +45,21 @@ export function UploadProviderFactory<T>() {
   const Provider = ({
     children,
     funcUpload,
+    queryKey,
   }: PropsWithChildren<UploadProvider<T>>) => {
     const [progress, setProgress] = useState<number>(0);
     const [uploadState, setUploadState] =
       useState<ApiTypes.FileUploadState>("wait");
     const [files, setFiles] = useState<Array<File>>([]);
     const [result, setResult] = useState<T>();
+    const queryClient = useQueryClient();
 
     const startUploading = async () => {
       setUploadState("uploading");
       const r = await funcUpload({ files }, onUpdateState);
+      if (queryKey) {
+        queryClient.invalidateQueries({ queryKey });
+      }
       setResult(r);
       setUploadState("done");
       setFiles([]);
