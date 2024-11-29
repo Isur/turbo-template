@@ -19,7 +19,7 @@ export type UploadContextType<T = Kek> = Context<UploadContext<T>>;
 
 export type FunctionUpload<T = Kek> = (
   data: { files: Array<File> },
-  onProgress: (progress: number, state: ApiTypes.FileUploadState) => void
+  onProgress: (progress: number) => void
 ) => Promise<T>;
 
 type UploadProvider<T> = {
@@ -56,21 +56,18 @@ export function UploadProviderFactory<T>() {
 
     const startUploading = async () => {
       setUploadState("uploading");
-      const r = await funcUpload({ files }, onUpdateState);
+      const r = await funcUpload({ files }, (newProgress) => {
+        if (progress !== 100 && newProgress === 100) {
+          setUploadState("processing");
+        }
+        setProgress(newProgress);
+      });
       if (queryKey) {
         queryClient.invalidateQueries({ queryKey });
       }
       setResult(r);
       setUploadState("done");
       setFiles([]);
-    };
-
-    const onUpdateState = (
-      progress: number,
-      state: ApiTypes.FileUploadState
-    ) => {
-      setProgress(progress);
-      setUploadState(state);
     };
 
     const onFilesChange = (acceptedFiles: Array<File>) => {

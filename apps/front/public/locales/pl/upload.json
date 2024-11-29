@@ -1,6 +1,8 @@
 {
   "uploader": "Przesyłacz",
   "uploading": "Przesyłanie!",
+  "processing": "Przetwarzanie!",
+  "wait": "Proszę czeakać, nie zamykaj okna!",
   "uploadAll": "Prześlij wszystko",
   "clickToUpload": "Kliknij by przesłać",
   "fileList": "Lista plików"

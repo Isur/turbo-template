@@ -1,6 +1,5 @@
 import axios, { GenericAbortSignal, AxiosError, AxiosResponse } from "axios";
 import { ApiError } from "./error";
-import { FileUploadState } from "./types";
 
 const api = axios.create({
   baseURL: "/api",
@@ -42,7 +41,7 @@ type FileApiRequest = ApiRequest & {
     field: string;
     files: Array<File>;
   };
-  onUploadProgress?: (progress: number, state: FileUploadState) => void;
+  onUploadProgress?: (progress: number) => void;
 };
 
 export type RequestOptions = {
@@ -128,14 +127,14 @@ export async function fileApiClient<TResponse>({
         const progress = event.progress;
 
         if (event.loaded === event.total) {
-          onUploadProgress(100, "done");
+          onUploadProgress(100);
           return;
         }
 
         if (!progress) {
-          onUploadProgress(0, "uploading");
+          onUploadProgress(0);
         } else {
-          onUploadProgress(Math.ceil(progress * 100), "uploading");
+          onUploadProgress(Math.ceil(progress * 100));
         }
       },
     });

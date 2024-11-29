@@ -9,25 +9,28 @@ export const Files: FC<{ context: UploadContextType }> = ({ context }) => {
   const { files, state, removeFile } = useContext(context);
   const { t } = useTranslation("upload");
 
-  const uploading = state === "uploading";
+  const uploading = state === "uploading" || state === "processing";
+
+  if (uploading) {
+    return (
+      <div className="h-[300px] justify-center items-center border flex gap-4">
+        <div className="flex justify-center items-center gap-4 p-4">
+          <Upload /> {t(state)} {t("wait")}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ScrollArea className="h-[300px] border flex gap-4">
-      {!uploading &&
-        files.map((file, index) => (
-          <FileUpload
-            key={index}
-            id={index}
-            removeFile={removeFile}
-            file={file}
-          />
-        ))}
-
-      {uploading && (
-        <div className="flex justify-center items-center gap-4 p-4">
-          <Upload /> {t("uploading")}
-        </div>
-      )}
+      {files.map((file, index) => (
+        <FileUpload
+          key={index}
+          id={index}
+          removeFile={removeFile}
+          file={file}
+        />
+      ))}
     </ScrollArea>
   );
 };

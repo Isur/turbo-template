@@ -1,1 +1,1 @@
-export type FileUploadState = "wait" | "uploading" | "done";
+export type FileUploadState = "wait" | "uploading" | "processing" | "done";

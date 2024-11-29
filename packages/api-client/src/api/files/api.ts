@@ -1,4 +1,3 @@
-import { FileUploadState } from "../../types";
 import { apiClient, fileApiClient } from "../../client";
 import {
   GetFileListResponse,
@@ -13,7 +12,7 @@ import {
 
 export async function uploadFile(
   data: UploadFileRequest,
-  onUploadProgress: (progress: number, state: FileUploadState) => void
+  onUploadProgress: (progress: number) => void
 ): Promise<UploadFileResponse> {
   const response = await fileApiClient<UploadFileResponse>({
     method: "POST",
@@ -32,7 +31,7 @@ export async function uploadFile(
 
 export async function uploadFiles(
   data: UploadMultipleFilesRequest,
-  onUploadProgress: (progress: number, state: FileUploadState) => void
+  onUploadProgress: (progress: number) => void
 ): Promise<UploadMultipleFilesResponse> {
   const response = await fileApiClient<UploadMultipleFilesResponse>({
     method: "POST",
