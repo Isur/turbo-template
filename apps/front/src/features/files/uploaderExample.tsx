@@ -3,7 +3,7 @@ import { FileApi, FileApiType } from "@repo/api-client";
 import { useTranslation } from "react-i18next";
 import { UploadProviderFactory } from "./uploadContext";
 import { FileUploader } from "./uploader/fileUploader";
-import { FileList } from "./fileList";
+import { FileList } from "./manager/fileList";
 
 const ctx = UploadProviderFactory<FileApiType.UploadMultipleFilesResponse>();
 

@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
   useQueryClient,
 } from "@tanstack/react-query";
+import { ApiError } from "@repo/api-client";
 import { useAuth, AuthProvider } from "./features/auth";
 import "./i18n";
 import "./index.css";
@@ -16,6 +17,12 @@ const queryClient = new QueryClient();
 import { routeTree } from "./routeTree.gen";
 import { ThemeProvider } from "./components/theme-provider";
 import { TanStackRouterDevtools, TanstackQueryDevtools } from "./devtools";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    defaultError: ApiError;
+  }
+}
 
 // Create a new router instance
 const router = createRouter({

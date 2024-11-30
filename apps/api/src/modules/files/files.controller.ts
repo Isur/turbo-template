@@ -17,6 +17,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { FileApiType } from "@repo/api-client";
 import { FilesService } from "./files.service";
 import { FileUpdateDto } from "./dto/fileUpdate.dto";
+import { FileNotFoundException } from "./files.errors";
 
 @ApiTags("files")
 @Controller("files")
@@ -79,14 +80,14 @@ export class FilesController {
   @Get(":id")
   async getFile(@Param("id") id: string): Promise<FileApiType.GetFileResponse> {
     const file = await this.filesService.getFile(id);
-    if (!file) throw new Error();
+    if (!file) throw new FileNotFoundException();
     return file;
   }
 
   @Get(":id/download")
   async downloadFile(@Param("id") id: string): Promise<StreamableFile> {
     const dbFile = await this.filesService.getFile(id);
-    if (!dbFile) throw new Error();
+    if (!dbFile) throw new FileNotFoundException();
     const file = createReadStream(process.cwd() + "/" + dbFile.path);
 
     return new StreamableFile(file, {
@@ -101,7 +102,7 @@ export class FilesController {
     @Body() body: FileUpdateDto
   ): Promise<FileApiType.PatchFileResponse> {
     const file = await this.filesService.updateFile(id, body.name);
-    if (!file) throw new Error("XD");
+    if (!file) throw new FileNotFoundException();
     return file;
   }
 

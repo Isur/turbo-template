@@ -9,10 +9,12 @@ import cookieParser from "cookie-parser";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import * as Sentry from "@sentry/nestjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
+import { ValidationError } from "class-validator";
 import { AppModule } from "./app.module";
 import { CustomHttpExceptionFilter } from "./core/exceptions/httpException.filter";
 import { AppConfigService } from "./core/config/appConfig.service";
 import { createLogger } from "./core/logger";
+import { CustomHttpException } from "./core/exceptions/httpException";
 
 async function bootstrap() {
   const logger = new Logger("bootstrap");
@@ -39,7 +41,24 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useBodyParser("text");
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: (errors: Array<ValidationError>) => {
+        const customErr = new CustomHttpException(
+          "BadRequest",
+          400,
+          "BAD_REQUEST",
+          {}
+        );
+        errors.forEach((err) => {
+          if (customErr.fields) {
+            customErr.fields[err.property] = err.constraints;
+          }
+        });
+        return customErr;
+      },
+    })
+  );
   app.useGlobalFilters(new CustomHttpExceptionFilter());
 
   app.setGlobalPrefix("api");

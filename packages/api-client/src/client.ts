@@ -19,6 +19,8 @@ api.interceptors.response.use(
     ) {
       window.location.href = "/auth/login";
     }
+
+    throw error;
   }
 );
 

@@ -19,6 +19,7 @@ export class CustomHttpExceptionFilter
       timestamp: new Date().toISOString(),
       path: request.url,
       method: request.method,
+      fields: exception.fields,
     });
   }
 }

@@ -5,10 +5,10 @@ export class FileUpdateDto {
   @ApiProperty({
     description: "Name of the file",
     example: "file.txt",
-    minimum: 2,
+    minimum: 6,
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(2)
+  @MinLength(6)
   name: string;
 }

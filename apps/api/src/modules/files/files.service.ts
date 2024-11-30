@@ -3,6 +3,7 @@ import { join } from "path";
 import { Inject, Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 import { DB, DB_TOKEN, schema } from "src/core/database";
+import { FileNotFoundException, FileRemoveException } from "./files.errors";
 
 @Injectable()
 export class FilesService {
@@ -54,12 +55,18 @@ export class FilesService {
 
   async deleteFile(id: string) {
     const file = await this.getFile(id);
-    if (!file) throw new Error();
+    if (!file) throw new FileNotFoundException();
 
     await this.db.transaction(async (tx) => {
-      const filePath = join(process.cwd(), "/", file?.path);
-      fs.rmSync(filePath);
-      await tx.delete(schema.files).where(eq(schema.files.id, id));
+      try {
+        await tx.delete(schema.files).where(eq(schema.files.id, id));
+
+        const filePath = join(process.cwd(), "/", file?.path);
+        fs.rmSync(filePath);
+      } catch {
+        tx.rollback();
+        throw new FileRemoveException();
+      }
     });
   }
 }
