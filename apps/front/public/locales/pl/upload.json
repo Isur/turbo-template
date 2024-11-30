@@ -2,7 +2,7 @@
   "uploader": "Przesyłacz",
   "uploading": "Przesyłanie!",
   "processing": "Przetwarzanie!",
-  "wait": "Proszę czeakać, nie zamykaj okna!",
+  "wait": "Proszę czeakać, nie zamykaj okna! To może trochę potrwać dla dużych plików.",
   "uploadAll": "Prześlij wszystko",
   "clickToUpload": "Kliknij by przesłać",
   "fileList": "Lista plików"

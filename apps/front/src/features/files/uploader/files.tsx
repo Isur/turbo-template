@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Upload } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { UploadContextType } from "../uploadContext";
 import { FileUpload } from "./file";
@@ -15,7 +15,8 @@ export const Files: FC<{ context: UploadContextType }> = ({ context }) => {
     return (
       <div className="h-[300px] justify-center items-center border flex gap-4">
         <div className="flex justify-center items-center gap-4 p-4">
-          <Upload /> {t(state)} {t("wait")}
+          <LoaderCircle className="animate-spin" />
+          {t(state)} {t("wait")}
         </div>
       </div>
     );
