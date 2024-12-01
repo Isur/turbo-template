@@ -8,9 +8,12 @@ export const Route = createFileRoute("/auth")({
   }),
   beforeLoad: async ({ context, search }) => {
     const auth = await context.auth.getProfile();
+    const r = search.redirect?.startsWith(location.origin)
+      ? search.redirect.slice(location.origin.length)
+      : "/";
     if (auth) {
       throw redirect({
-        to: search.redirect || "/",
+        to: r,
       });
     }
   },
