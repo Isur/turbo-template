@@ -5,5 +5,7 @@
   "wait": "Proszę czeakać, nie zamykaj okna! To może trochę potrwać dla dużych plików.",
   "uploadAll": "Prześlij wszystko",
   "clickToUpload": "Kliknij by przesłać",
-  "fileList": "Lista plików"
+  "fileList": "Lista plików",
+  "free": "Wolne",
+  "uploaded": "Do przesłania"
 }

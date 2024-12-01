@@ -5,5 +5,7 @@
   "wait": "Please wait, do not close window! This may take some time for big files.",
   "uploadAll": "Upload All",
   "clickToUpload": "Click to upload",
-  "fileList": "File List"
+  "fileList": "File List",
+  "free": "Free",
+  "uploaded": "To upload"
 }

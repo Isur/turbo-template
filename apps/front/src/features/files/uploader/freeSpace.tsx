@@ -1,4 +1,5 @@
 import { FC, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { UploadContextType } from "../uploadContext";
 
 const info = ["B", "KB", "MB", "GB", "tB"];
@@ -16,6 +17,7 @@ function sizeToText(size: number) {
 
 export const FreeSpace: FC<{ context: UploadContextType }> = ({ context }) => {
   const { freeSpace, files } = useContext(context);
+  const { t } = useTranslation("upload");
   const sizeU = files.reduce((acc, cur) => {
     return acc + cur.size;
   }, 0);
@@ -24,8 +26,12 @@ export const FreeSpace: FC<{ context: UploadContextType }> = ({ context }) => {
   const uploaded = sizeToText(sizeU) || 0;
   return (
     <div>
-      <p>Free: {free}</p>
-      <p>Uploaded: {uploaded}</p>
+      <p>
+        {t("free")}: {free}
+      </p>
+      <p>
+        {t("uploaded")}: {uploaded}
+      </p>
     </div>
   );
 };
