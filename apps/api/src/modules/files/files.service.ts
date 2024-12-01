@@ -1,5 +1,6 @@
 import fs from "fs";
 import { join } from "path";
+import { statfs } from "fs/promises";
 import { Inject, Injectable } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 import { DB, DB_TOKEN, schema } from "src/core/database";
@@ -8,6 +9,13 @@ import { FileNotFoundException, FileRemoveException } from "./files.errors";
 @Injectable()
 export class FilesService {
   constructor(@Inject(DB_TOKEN) private readonly db: DB) {}
+
+  async getDiskStats() {
+    const stats = await statfs("/");
+    return {
+      available: stats.bsize * stats.bavail,
+    };
+  }
 
   async saveFile(file: typeof schema.files.$inferInsert) {
     const dbFile = await this.db.insert(schema.files).values(file).returning();

@@ -15,6 +15,7 @@ export const useFileManager = (id: string) => {
     mutationFn: () => FileApi.deleteFile(id),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: ["files"] });
+      client.invalidateQueries({ queryKey: ["space"] });
     },
   });
 

@@ -1,5 +1,6 @@
 import { apiClient, fileApiClient } from "../../client";
 import {
+  GetAvailableSpaceResponse,
   GetFileListResponse,
   GetFileResponse,
   PatchFileRequest,
@@ -91,4 +92,12 @@ export async function deleteFile(id: string) {
     method: "DELETE",
     url: "/files/" + id,
   });
+}
+
+export async function getAvailableSpace(): Promise<GetAvailableSpaceResponse> {
+  const response = await apiClient<GetAvailableSpaceResponse>({
+    url: "/files/stats",
+  });
+
+  return response;
 }

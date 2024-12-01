@@ -24,6 +24,11 @@ import { FileNotFoundException } from "./files.errors";
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @Get("stats")
+  async stats() {
+    return this.filesService.getDiskStats();
+  }
+
   @Post("upload")
   @UseInterceptors(
     FileInterceptor("file", {

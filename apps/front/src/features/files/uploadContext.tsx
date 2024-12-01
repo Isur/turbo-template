@@ -1,5 +1,5 @@
-import { ApiTypes } from "@repo/api-client";
-import { useQueryClient } from "@tanstack/react-query";
+import { ApiTypes, FileApi } from "@repo/api-client";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Context, createContext, PropsWithChildren, useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,6 +13,7 @@ type UploadContext<T = Kek> = {
   startUploading: () => void;
   removeFile: (fileId: number) => void;
   result: T | undefined;
+  freeSpace: number;
 };
 
 export type UploadContextType<T = Kek> = Context<UploadContext<T>>;
@@ -40,6 +41,7 @@ export function UploadProviderFactory<T>() {
     removeFile: () => null,
     files: [],
     result: undefined,
+    freeSpace: 0,
   });
 
   const Provider = ({
@@ -53,6 +55,12 @@ export function UploadProviderFactory<T>() {
     const [files, setFiles] = useState<Array<File>>([]);
     const [result, setResult] = useState<T>();
     const queryClient = useQueryClient();
+    const spaceData = useQuery({
+      queryKey: ["space"],
+      queryFn: FileApi.getAvailableSpace,
+    });
+
+    if (!spaceData.data) return null;
 
     const startUploading = async () => {
       setUploadState("uploading");
@@ -65,6 +73,7 @@ export function UploadProviderFactory<T>() {
       if (queryKey) {
         queryClient.invalidateQueries({ queryKey });
       }
+      queryClient.invalidateQueries({ queryKey: ["space"] });
       setResult(r);
       setUploadState("done");
       setFiles([]);
@@ -91,6 +100,7 @@ export function UploadProviderFactory<T>() {
           startUploading,
           removeFile,
           result,
+          freeSpace: spaceData.data.available,
         }}
       >
         {children}

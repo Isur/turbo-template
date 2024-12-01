@@ -5,6 +5,7 @@ import { UploadProgress } from "./progress";
 import { UploadResult } from "./uploadResult";
 import { Dropzone } from "./dropzone";
 import { Files } from "./files";
+import { FreeSpace } from "./freeSpace";
 
 export const FileUploader: FC<{
   ctx: UploadProviderFactoryType;
@@ -14,6 +15,7 @@ export const FileUploader: FC<{
   return (
     <ctx.Provider funcUpload={func} queryKey={queryKey}>
       <div className="w-[800px]">
+        <FreeSpace context={ctx.Context} />
         <Dropzone context={ctx.Context} />
         <UploadButton context={ctx.Context} />
         <UploadProgress context={ctx.Context} />

@@ -22,3 +22,6 @@ export type GetFileListResponse = Array<AppFile>;
 export type GetFileResponse = AppFile;
 export type PatchFileResponse = AppFile;
 export type PatchFileRequest = { name: string };
+export type GetAvailableSpaceResponse = {
+  available: number;
+};
