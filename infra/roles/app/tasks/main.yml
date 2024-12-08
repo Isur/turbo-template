@@ -60,6 +60,14 @@
   loop:
     - { src: "env.app.template", dest: ".env.app" }
     - { src: "env.db.template", dest: ".env.db" }
+    - {
+        src: "configs/grafana/prometheus_template.yml",
+        dest: "configs/grafana/prometheus.yml",
+      }
+    - {
+        src: "configs/grafana/promtail_template.yml",
+        dest: "configs/grafana/promtail.yml",
+      }
 
 - name: Directories
   become_method: ansible.builtin.sudo

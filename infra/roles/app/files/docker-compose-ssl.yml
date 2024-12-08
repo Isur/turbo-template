@@ -33,6 +33,8 @@ services:
       - ./data/ssl/www:/var/www/certbot
       - ./data/logs/nginx/:/var/log/nginx
       - ./data/html:/var/www/html
+    depends_on:
+      - app
 
   prometheus:
     image: prom/prometheus
