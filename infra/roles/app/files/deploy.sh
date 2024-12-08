@@ -1,6 +1,6 @@
 #!/bin/bash
 
 echo Deploying app
-docker compose -f ./docker-compose-ssl.yml up -d
+docker compose -f ./docker-compose-nossl.yml up -d
 docker image prune -f
 echo Deployed app

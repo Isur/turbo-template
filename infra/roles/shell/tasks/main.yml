@@ -1,0 +1,112 @@
+# vim:ft=yaml.ansible
+---
+- name: Install zsh
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - git
+      - zsh
+      - fzf
+      - ripgrep
+      - fd-find
+      - curl
+      - vim
+      - zsh
+    state: present
+
+- name: ZSH OMZ stat
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.stat:
+    path: "/home/{{ user_name }}/.oh-my-zsh/custom/plugins/zsh-fzf-history-search"
+  register: zsh_status
+
+- name: Removed old OhMyZsh
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ user_name }}/.oh-my-zsh"
+    state: absent
+  when: not zsh_status.stat.exists
+
+- name: Install OhMyZSH
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.shell: |
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  when: not zsh_status.stat.exists
+  changed_when: true
+
+- name: Download OhMyZSH plugins
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: master
+    force: true
+  loop:
+    - {
+        repo: "https://github.com/joshskidmore/zsh-fzf-history-search",
+        dest: "/home/{{ user_name }}/.oh-my-zsh/custom/plugins/zsh-fzf-history-search",
+      }
+    - {
+        repo: "https://github.com/zsh-users/zsh-autosuggestions",
+        dest: "/home/{{ user_name }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions",
+      }
+    - {
+        repo: "https://github.com/zsh-users/zsh-syntax-highlighting",
+        dest: "/home/{{ user_name }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting",
+      }
+  when: not zsh_status.stat.exists
+
+- name: ZSH Config
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    force: true
+    mode: "755"
+  loop:
+    - { src: "zshrc", dest: "/home/{{ user_name }}/.zshrc" }
+
+- name: ZSH default shell
+  become: true
+  ansible.builtin.user:
+    user: "{{ user_name }}"
+    shell: /usr/bin/zsh
+
+- name: Check lazydocker installation
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.stat:
+    path: "/home/{{ user_name }}/.local/bin/lazydocker"
+  register: lazydocker_test
+  changed_when: false
+  failed_when: false
+
+- name: Install lazydocker
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  args:
+    executable: /usr/bin/bash
+  changed_when: true
+  when: not lazydocker_test.stat.exists

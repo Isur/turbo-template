@@ -1,0 +1,49 @@
+# vim:ft=yaml.ansible
+---
+- name: Install acl
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - acl
+    state: present
+
+- name: Create User
+  become: true
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    state: present
+    groups:
+      - sudo
+      - docker
+    append: true
+
+- name: Disallow SSH password authentication
+  become: true
+  ansible.builtin.lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+    validate: sshd -t -f %s
+
+- name: Ensure .ssh directory exists
+  become: true
+  ansible.builtin.file:
+    path: "home/{{ user_name }}/.ssh"
+    state: directory
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
+    mode: "0700"
+
+- name: Setup SSH key
+  become: true
+  ansible.posix.authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ lookup('file', 'files/id_rsa.pub') }}"
+
+- name: Reload config
+  become: true
+  ansible.builtin.systemd:
+    name: ssh
+    state: reloaded

@@ -1,0 +1,46 @@
+- name: Install required system packages
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: present
+    update_cache: true
+
+- name: Keyrings dir
+  ansible.builtin.file:
+    path: "/etc/apt/keyrings"
+    state: directory
+    mode: "0755"
+
+- name: Add Docker apt key.
+  become: true
+  ansible.builtin.get_url:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    dest: "/etc/apt/keyrings/docker.asc"
+    mode: "0644"
+    force: true
+
+- name: Add Docker Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ [ansible_architecture] | map('extract', deb_architecture) | first }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    filename: docker.list
+    state: present
+
+- name: Update apt and install docker-ce
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: true

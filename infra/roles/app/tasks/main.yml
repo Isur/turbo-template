@@ -1,0 +1,77 @@
+---
+- name: App Directory
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ user_name }}/app"
+    state: directory
+    mode: "0755"
+    group: "{{ user_name }}"
+    owner: "{{ user_name }}"
+
+- name: Copy files
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.copy:
+    dest: "/home/{{ user_name }}/apps/{{ app_name }}/{{ item }}"
+    src: "{{ role_path }}/files/{{ item }}"
+    mode: "0644"
+    group: "{{ user_name }}"
+    owner: "{{ user_name }}"
+  loop:
+    - configs/
+    - docker-compose-certbot.yml
+    - docker-compose-nossl.yml
+    - docker-compose-ssl.yml
+    - env.app.template
+    - env.db.template
+
+- name: Deploy execution mode
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.copy:
+    mode: "0755"
+    dest: "/home/{{ user_name }}/apps/{{ app_name }}/{{ item }}"
+    src: "{{ role_path }}/files/{{ item }}"
+    group: "{{ user_name }}"
+    owner: "{{ user_name }}"
+  loop:
+    - deploy.sh
+
+- name: Env Files
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/home/{{ user_name }}/apps/{{ app_name }}/{{ item.src }}"
+    dest: "/home/{{ user_name }}/apps/{{ app_name }}/{{ item.dest }}"
+    mode: "0644"
+    force: false
+    group: "{{ user_name }}"
+    owner: "{{ user_name }}"
+  loop:
+    - { src: "env.app.template", dest: ".env.app" }
+    - { src: "env.db.template", dest: ".env.db" }
+
+- name: Directories
+  become_method: ansible.builtin.sudo
+  become_user: "{{ user_name }}"
+  become_flags: "--login"
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ user_name }}/apps/{{ app_name }}/{{ item }}"
+    mode: "0755"
+    state: directory
+    group: "{{ user_name }}"
+    owner: "{{ user_name }}"
+  loop:
+    - "data"
+    - "data/html"

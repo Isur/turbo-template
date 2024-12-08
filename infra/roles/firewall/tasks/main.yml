@@ -1,0 +1,25 @@
+---
+- name: Allow ports
+  become: true
+  community.general.ufw:
+    state: enabled
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - 22
+    - 80
+    - 443
+
+- name: Outgoing allow
+  become: true
+  community.general.ufw:
+    state: enabled
+    direction: outgoing
+    policy: allow
+
+- name: Incoming deny
+  become: true
+  community.general.ufw:
+    state: enabled
+    direction: incoming
+    policy: deny

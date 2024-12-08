@@ -43,3 +43,5 @@ yarn-error.log*
 todo.md
 
 docker_data
+
+apps/api/bucket
