@@ -6,7 +6,6 @@ services:
     env_file: ./.env.app
     depends_on:
       - database
-      - prometheus
     volumes:
       - ./data/logs/api:/app/apps/api/logs
       - ./data/bucket/api:/app/apps/api/bucket
