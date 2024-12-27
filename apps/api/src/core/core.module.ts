@@ -2,12 +2,15 @@ import { MiddlewareConsumer, Module } from "@nestjs/common";
 import {
   makeCounterProvider,
   makeHistogramProvider,
+  PrometheusModule,
 } from "@willsoto/nestjs-prometheus";
 import { AppConfigModule } from "./config/appConfig.module";
 import { HealthModule } from "./health/health.module";
 import { DbModule } from "./database/db.module";
 import { MailerModule } from "./mailer/mailer.module";
 import { SentryModule } from "./sentry/sentry.module";
+import { MetricsModule } from "./metrics/metrics.module";
+import { MetricsController } from "./metrics/metrics.controller";
 import { LoggingMiddleware } from "./middlewares/logging.middleware";
 
 @Module({
@@ -17,6 +20,11 @@ import { LoggingMiddleware } from "./middlewares/logging.middleware";
     DbModule,
     MailerModule,
     SentryModule,
+    MetricsModule,
+    PrometheusModule.register({
+      global: true,
+      controller: MetricsController,
+    }),
   ],
   controllers: [],
   providers: [
