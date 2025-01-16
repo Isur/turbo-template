@@ -1,11 +1,13 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from "@nestjs/common";
 import { Request, Response } from "express";
+import { SentryExceptionCaptured } from "@sentry/nestjs";
 import { CustomHttpException } from "./httpException";
 
 @Catch(CustomHttpException)
 export class CustomHttpExceptionFilter
   implements ExceptionFilter<CustomHttpException>
 {
+  @SentryExceptionCaptured()
   catch(exception: CustomHttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

@@ -1,8 +1,4 @@
-import {
-  BaseExceptionFilter,
-  HttpAdapterHost,
-  NestFactory,
-} from "@nestjs/core";
+import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import cookieParser from "cookie-parser";
@@ -15,6 +11,7 @@ import { CustomHttpExceptionFilter } from "./core/exceptions/httpException.filte
 import { AppConfigService } from "./core/config/appConfig.service";
 import { createLogger } from "./core/logger";
 import { CustomHttpException } from "./core/exceptions/httpException";
+import { CatchEverythingFilter } from "./core/exceptions/catchEverything.filter";
 
 async function bootstrap() {
   const logger = new Logger("bootstrap");
@@ -26,7 +23,7 @@ async function bootstrap() {
   const config = configService.get("app");
   const sentryConfig = configService.get("sentry");
 
-  const { httpAdapter } = app.get(HttpAdapterHost);
+  const httpAdapter = app.get(HttpAdapterHost);
 
   Sentry.init({
     dsn: sentryConfig.dsn,
@@ -35,8 +32,6 @@ async function bootstrap() {
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
   });
-
-  Sentry.setupNestErrorHandler(app, new BaseExceptionFilter(httpAdapter));
 
   app.use(cookieParser());
   app.useBodyParser("text");
@@ -59,6 +54,8 @@ async function bootstrap() {
       },
     })
   );
+
+  app.useGlobalFilters(new CatchEverythingFilter(httpAdapter));
   app.useGlobalFilters(new CustomHttpExceptionFilter());
 
   app.setGlobalPrefix("api");
