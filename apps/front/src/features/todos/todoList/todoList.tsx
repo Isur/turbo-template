@@ -26,7 +26,7 @@ export const TodoList = () => {
           <ul>
             {todos.data.map((d) => (
               <li key={d.id}>
-                <Link to={`/todos/${d.id}`}>
+                <Link to="/todos/$id" params={{ id: d.id.toString() }}>
                   <Button variant="secondary">{d.id}</Button>
                 </Link>
               </li>
