@@ -3,8 +3,6 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import cookieParser from "cookie-parser";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import * as Sentry from "@sentry/nestjs";
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
 import { ValidationError } from "class-validator";
 import { AppModule } from "./app.module";
 import { CustomHttpExceptionFilter } from "./core/exceptions/httpException.filter";
@@ -12,6 +10,7 @@ import { AppConfigService } from "./core/config/appConfig.service";
 import { createLogger } from "./core/logger";
 import { CustomHttpException } from "./core/exceptions/httpException";
 import { CatchEverythingFilter } from "./core/exceptions/catchEverything.filter";
+import "./instrument";
 
 async function bootstrap() {
   const logger = new Logger("bootstrap");
@@ -21,17 +20,8 @@ async function bootstrap() {
 
   const configService = app.get(AppConfigService);
   const config = configService.get("app");
-  const sentryConfig = configService.get("sentry");
 
   const httpAdapter = app.get(HttpAdapterHost);
-
-  Sentry.init({
-    dsn: sentryConfig.dsn,
-    environment: config.env_name ?? "production",
-    integrations: [nodeProfilingIntegration()],
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-  });
 
   app.use(cookieParser());
   app.useBodyParser("text");
