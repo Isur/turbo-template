@@ -8,6 +8,7 @@ import {
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
 import { SentryExceptionCaptured } from "@sentry/nestjs";
+import { HttpExceptionRespose } from "./httpException";
 
 @Catch()
 export class CatchEverythingFilter implements ExceptionFilter {
@@ -29,15 +30,14 @@ export class CatchEverythingFilter implements ExceptionFilter {
 
     this.logger.error(exception);
 
-    const responseBody = {
-      status: httpStatus,
-      code: "UNHANDLED",
-      message: "",
-      timestamp: new Date().toISOString(),
-      path: httpAdapter.getRequestUrl(req),
-      method: httpAdapter.getRequestMethod(req),
-      fields: {},
-    };
+    const responseBody = new HttpExceptionRespose(
+      httpStatus,
+      "UNHANDLED",
+      "",
+      new Date().toISOString(),
+      httpAdapter.getRequestUrl(req),
+      httpAdapter.getRequestMethod(req)
+    );
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
