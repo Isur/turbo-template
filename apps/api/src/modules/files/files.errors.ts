@@ -11,3 +11,9 @@ export class FileRemoveException extends CustomHttpException {
     super("File could not be deleted!", 500, "FILE_NOT_DELETED");
   }
 }
+
+export class FileNotUploaded extends CustomHttpException {
+  constructor() {
+    super("File was not provided!", 400, "FILE_NOT_PROVIDED");
+  }
+}

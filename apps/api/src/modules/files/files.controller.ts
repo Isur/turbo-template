@@ -17,7 +17,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { FileApiType } from "@repo/api-client";
 import { FilesService } from "./files.service";
 import { FileUpdateDto } from "./dto/fileUpdate.dto";
-import { FileNotFoundException } from "./files.errors";
+import { FileNotFoundException, FileNotUploaded } from "./files.errors";
 
 @ApiTags("files")
 @Controller("files")
@@ -38,7 +38,7 @@ export class FilesController {
   async uploadFile(
     @UploadedFile() file: Express.Multer.File
   ): Promise<FileApiType.UploadFileResponse> {
-    if (!file) throw new Error();
+    if (!file) throw new FileNotUploaded();
 
     const newFile = await this.filesService.saveFile({
       mimetype: file.mimetype,

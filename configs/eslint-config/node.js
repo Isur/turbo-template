@@ -31,7 +31,13 @@ module.exports = {
     ],
     "prettier/prettier": "warn",
     "unused-imports/no-unused-imports": "warn",
-    "unused-imports/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        caughtErrors: "none",
+        argsIgnorePattern: "^_",
+      },
+    ],
     "@typescript-eslint/no-empty-interface": "off",
     "no-console": "warn",
     "no-duplicate-imports": "warn",
