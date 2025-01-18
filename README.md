@@ -1,7 +1,5 @@
 # Turborepo starter
 
-Work in progress...
-
 Currently using `nestjs` as backend app and `React` with `vite` as frontend app.
 
 ## Features:
@@ -50,3 +48,28 @@ Currently using `nestjs` as backend app and `React` with `vite` as frontend app.
 `./packages` - for shared packages - api clients, utils, etc.
 
 `./configs` - for shared configs - eslint, typescript, etc.
+
+## Requirements
+
+- `node@22`
+- `pnpm@9`
+- `postgresql@16` / `docker`
+
+## Env
+
+If you want to change default settings (e.g. database connection) setup `env` files.
+
+Look into readme files in `./apps/api/README.md` and `./apps/front/README.md`
+
+## To start:
+
+```bash
+# Install
+$ pnpm install
+
+# Run dev
+$ pnpm dev
+
+# Run linters/formatters
+$ pnpm check:fix
+```
