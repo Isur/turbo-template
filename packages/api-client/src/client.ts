@@ -15,7 +15,7 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     if (
       error.response?.status === 401 &&
-      !window.location.pathname.includes("/auth/login")
+      !window.location.pathname.includes("/auth/")
     ) {
       window.location.href = "/auth/login";
     }
