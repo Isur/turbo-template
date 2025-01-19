@@ -57,9 +57,21 @@ Currently using `nestjs` as backend app and `React` with `vite` as frontend app.
 
 ## Env
 
-If you want to change default settings (e.g. database connection) setup `env` files.
+Use `./pre.sh` script to setup default env. If you want to change something do this in generated `.env.docker` or `.env` files.
 
 Look into readme files in `./apps/api/README.md` and `./apps/front/README.md`
+
+## Docker
+
+There is `Docker` setup. Using `pnpm docker:db` you will run only database in `Docker` (setup correctly `.env` in `./apps/api`).
+
+Using `pnpm docker:full` will run database and backend in `Docker` (setup correctly `.env.docker` in `./`).
+
+`pnpm dev` will run backend and frontend locally.
+
+`pnpm dev:front` will run only frontend with its dependencies.
+
+`pnpm dev:api` will run only backend with its dependencies.
 
 ## To start:
 
@@ -69,7 +81,16 @@ $ pnpm install
 
 # Run dev
 $ pnpm dev
+# only front
+$ pnpm dev:front
+# only api
+$ pnpm dev:api
 
 # Run linters/formatters
 $ pnpm check:fix
+
+# Docker
+$ pnpm docker:db
+$ pnpm docker:full
+
 ```

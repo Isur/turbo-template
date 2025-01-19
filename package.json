@@ -5,17 +5,21 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:front": "turbo dev -F=...front...",
+    "dev:api": "turbo dev -F=...api...",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
     "fjv": "turbo fjv",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"{apps,packages}/**/*.{ts,tsx,md}\"",
+    "format:check": "prettier --check \"{apps,packages}/**/*.{ts,tsx,md}\"",
     "typecheck": "turbo typecheck",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck",
     "check:fix": "pnpm format && pnpm lint:fix",
     "start": "pnpm --filter=api start",
     "prod": "pnpm build && pnpm start",
-    "test": "turbo test"
+    "test": "turbo test",
+    "docker:db": "docker compose --profile db up",
+    "docker:full": "docker compose --profile full up"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
